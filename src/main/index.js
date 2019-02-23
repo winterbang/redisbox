@@ -46,7 +46,7 @@ function createWindow () {
   //   // return 'Are you sure you want to exit?'
   // })
   console.log(app.getLocale())
-  mainWindow.openDevTools()
+  if (process.env.NODE_ENV === 'development') mainWindow.webContents.openDevTools()
 }
 
 app.on('ready', createWindow)

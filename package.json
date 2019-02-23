@@ -1,8 +1,8 @@
 {
-  "name": "y",
+  "name": "redisbox",
   "version": "0.0.1",
   "author": "zwtao90@gmail.com",
-  "description": "An electron-vue project",
+  "description": "Redis 图形化客户端",
   "license": null,
   "main": "./dist/electron/main.js",
   "scripts": {
@@ -23,7 +23,7 @@
   },
   "build": {
     "productName": "redisbox",
-    "appId": "com.example.yourapp",
+    "appId": "com.example.redisbox",
     "directories": {
       "output": "build"
     },
@@ -46,7 +46,7 @@
       ]
     },
     "mac": {
-      "icon": "build/icons/icon.icns"
+      "icon": "build/icons/open.icns"
     },
     "win": {
       "icon": "build/icons/icon.ico"

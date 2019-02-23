@@ -1,5 +1,5 @@
 <template lang="html">
-  <div>
+  <div style="overflow-y: scroll; display: flex;flex-direction: column;justify-content: center;margin: 0 auto;padding: 20px">
     <Alert show-icon>您的意见是我们不断进步的动力，请留下您在使用中遇到的问题或提出宝贵的建议。</Alert>
     <Form :model="formItem" :label-width="80">
       <FormItem label="Detail">
