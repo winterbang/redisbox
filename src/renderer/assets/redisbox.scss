@@ -1,0 +1,38 @@
+.fade-enter-active, .fade-leave-active {
+  transition-duration: 0.2s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+.fade-enter, .fade-leave-active {
+  opacity: 0
+}
+
+.rb-dialog {
+  position: fixed;
+  height: 500px;
+  z-index: 100;
+  width: 600px;
+  left:0;
+  right: 0;
+  margin: 0 auto;
+  background: #f5f5f4;
+  border:1px solid #ccc;
+  border-top: none;
+  transition: top 0.4s linear;
+}
+
+.toolbar-box {
+  min-width: 800px;
+  z-index: 999;
+  position: fixed;
+  left: 80px;
+  right: 0;
+  bottom: 0;
+  height: 40px;
+  padding: 0 10px;
+  background:  #fff;
+  box-shadow: 1px -2px 4px #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

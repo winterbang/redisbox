@@ -1,0 +1,21 @@
+<div>
+  <div style="height: 90px;display:flex;justify-content: center;align-items: center">
+    <img src="@/assets/logo.png" width="60%" @click="onNav('home')">
+  </div>
+
+  <div style="min-height: 125px;">
+    <Row v-for="nv,idx in navs" :key="`nv${idx}`" :class="{active: nv.label === activeLabel, animated: nv.label === activeLabel, pulse: nv.label === activeLabel}" @click.native="onNav(nv.label)">
+      <Col span="24">
+        <!-- <Card :class="{active: content === nv.label}" :bordered="false" @click.native="onNav(nv.label)">
+          <div style="text-align:center;">
+            <Icon :type="nv.icon" size="30"/>
+            <h5>{{nv.label}}</h5>
+          </div>
+        </Card> -->
+        <div style="text-align:center;">
+          <Icon :type="nv.icon" size="34" color="#fff"/>
+         </div>
+      </Col>
+    </Row>
+  </div>
+</div>
