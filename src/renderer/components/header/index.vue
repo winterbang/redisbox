@@ -3,6 +3,7 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import { remote, ipcRenderer } from 'electron'
+import fs from 'fs'
 import NewConnection from '../NewConnectionPage/Index'
 import tools from './tools.json'
 const { dialog, BrowserWindow } = remote
@@ -17,7 +18,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['curConnectionName'])
+    ...mapState(['curConnectionName', 'connections'])
     // disabled () {
     //   return this.label === 'conn info' && this.curConnectionName
     // }
@@ -32,6 +33,9 @@ export default {
           break
         case 'import':
           this.showFileDialog()
+          break
+        case 'export':
+          this.onExport()
           break
         case 'console':
           this.newWindow()
@@ -56,6 +60,20 @@ export default {
           this.dictorySelected = filename[0]
           this.listingFile(this.dictorySelected)
         }
+      })
+    },
+    onExport () {
+      let content = JSON.stringify(this.connections, undefined, 2)
+      dialog.showSaveDialog((fileName) => {
+        if (fileName === undefined) {
+          console.log("You didn't save the file")
+          return
+        }
+        // fileName is a string that contains the path and filename created in the save file dialog.
+        fs.writeFile(`${fileName}.json`, content, (err) => {
+          if (err) return alert('An error ocurred creating the file ' + err.message)
+          alert('The file has been succesfully saved')
+        })
       })
     },
     newWindow () {

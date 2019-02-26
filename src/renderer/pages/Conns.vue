@@ -8,14 +8,14 @@
              {{ connection.name }}
            </p>
            <div slot="extra" @click.stop="onSetting(idx)" >
-             <Icon type="ios-construct-outline"/>
+             <Icon type="ios-construct-outline" size="20"/>
              <!-- <Icon type="ios-open-outline" /> -->
            </div>
            <p>Host: {{connection.host}}</p>
            <p>Port: {{connection.port}}</p>
          </Card>
        </Col>
-       
+
        <Col span="6">
          <Card :bordered="false" style="display:flex;justify-content: center;align-items: center;text-align:center;height: 125px;">
            <Icon type="ios-add-circle-outline" size="46" @click.native="visibel = true" title="Add a new connection"/>

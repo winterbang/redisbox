@@ -6,6 +6,9 @@
     "label": "import",
     "icon": "ios-folder-open-outline"
   }, {
+    "label": "export",
+    "icon": "ios-print-outline"
+  }, {
     "label": "console",
     "icon": "ios-paper-outline"
   }, {
