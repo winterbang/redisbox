@@ -3,7 +3,7 @@
     <div id="titlebar">
       <top-header />
     </div>
-    <alluring /> 
+    <alluring />
     <!-- <transition  mode="out-in" name="fade">
       <router-view :key="$route.fullPath"></router-view>
     </transition> -->
@@ -22,6 +22,7 @@
     name: 'redisbox',
     components: { TopHeader, Alluring },
     created () {
+      console.log(process.env.NODE_ENV)
       window.addEventListener('unload', evt => {
         console.log('I do not want to be closed')
         // if (closeWindow) return

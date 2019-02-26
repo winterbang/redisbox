@@ -59,7 +59,6 @@
     "animate.css": "^3.7.0",
     "axios": "^0.18.0",
     "electron-tabs": "^0.9.5",
-    "element-ui": "^2.5.4",
     "iview": "^3.2.2",
     "nedb": "^1.8.0",
     "redis": "^2.8.0",

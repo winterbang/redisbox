@@ -46,7 +46,7 @@ function createWindow () {
   //   // return 'Are you sure you want to exit?'
   // })
   console.log(app.getLocale())
-  if (process.env.NODE_ENV === 'development') mainWindow.webContents.openDevTools()
+  // if (process.env.NODE_ENV === 'development') mainWindow.webContents.openDevTools()
 }
 
 app.on('ready', createWindow)
@@ -76,7 +76,7 @@ ipcMain.on('openConsole', function (e, data) {
   const modalPath = process.env.NODE_ENV === 'development'
     ? 'http://localhost:9080/#/console'
     : `file://${__dirname}/index.html#/console`
-  let win = new BrowserWindow({ width: 1000, height: 620, webPreferences: {webSecurity: false} })
+  let win = new BrowserWindow({ width: 1000, height: 620, webPreferences: {webSecurity: false}, parent: mainWindow })
   win.on('close', function () { win = null })
   console.log(modalPath)
   win.loadURL(modalPath)

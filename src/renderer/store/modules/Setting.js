@@ -1,5 +1,6 @@
 const state = {
-  main: 0
+  locale: '',
+  pattern: '' // 窗口模式 single, multiple
 }
 
 const mutations = {

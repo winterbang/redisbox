@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import axios from 'axios'
 
-import './assets/photon/css/photon.css'
+// import './assets/photon/css/photon.css'
 import './assets/reset.css'
-import ElementUI from 'element-ui'
+// import ElementUI from 'element-ui'
 import iView from 'iview'
-import 'element-ui/lib/theme-chalk/index.css'
+// import 'element-ui/lib/theme-chalk/index.css'
 import animate from 'animate.css/animate.min.css'
 import '@/themes/index.less'
 import './assets/redisbox.scss'
@@ -38,7 +38,7 @@ db.find({ name: 'localhost' }, function (err, docs) {
   console.log(err)
 })
 
-Vue.use(ElementUI)
+// Vue.use(ElementUI)
 Vue.use(iView)
 Vue.use(animate)
 Vue.use(redisClient)

@@ -2,10 +2,10 @@
 <style src="./style.scss" lang="scss" scoped></style>
 <script>
 import { mapState, mapActions } from 'vuex'
-import { remote } from 'electron'
+import { remote, ipcRenderer } from 'electron'
 import NewConnection from '../NewConnectionPage/Index'
 import tools from './tools.json'
-const { dialog } = remote
+const { dialog, BrowserWindow } = remote
 
 export default {
   name: 'top-header',
@@ -17,10 +17,10 @@ export default {
     }
   },
   computed: {
-    ...mapState(['curConnectionName']),
-    disabled (label) {
-      return label === 'conn info' && this.curConnectionName
-    }
+    ...mapState(['curConnectionName'])
+    // disabled () {
+    //   return this.label === 'conn info' && this.curConnectionName
+    // }
   },
   methods: {
     ...mapActions(['increment']),
@@ -51,7 +51,7 @@ export default {
       }
     },
     showFileDialog () {
-      dialog.showOpenDialog({ properties: ['openFile'], message: '选择要引用的文件' }, (filename) => {
+      dialog.showOpenDialog({ filters: [{ name: 'Json', extensions: ['json'] }], properties: ['openFile'], message: '选择要引用的文件' }, (filename) => {
         if (filename && filename.length === 1) {
           this.dictorySelected = filename[0]
           this.listingFile(this.dictorySelected)
@@ -59,14 +59,42 @@ export default {
       })
     },
     newWindow () {
-      const { BrowserWindow } = remote
-      let win = new BrowserWindow({width: 800, height: 600})
+      console.log(remote.getCurrentWindow())
+      let win = new BrowserWindow({width: 800, height: 600, parent: remote.getCurrentWindow()})
+      win.loadURL('https://github.com')
       win.on('closed', () => {
         win = null
       })
-      // ipcRenderer.sendSync('openConsole', 'ping')
+      ipcRenderer.sendSync('openConsole', 'ping')
       // window.open('./console', '_blank', 'nodeIntegration=no')
     }
+  },
+  watch: {
+    $route (to, from) {
+      console.log('toolbars header')
+      this.dbIndex = to.params.id
+      console.log(to.params.id)
+      let tool = this.tools.filter(tool => tool.label === 'conn info')[0]
+      if (to.params.id) {
+        if (tool) this.$set(tool, 'disabled', true)
+      } else {
+        this.$set(tool, 'disabled', false)
+      }
+      console.log('query=========')
+    }
+  },
+  beforeRouteEnter (to, from, next) {
+    console.log('beforeRouteEnter')
+    next(vm => {
+      console.log(vm.dbIndex)
+    })
+  },
+  beforeRouteUpdate (to, from, next) {
+    console.log(to)
+    next()
+  },
+  created () {
+    console.log('created toolbars header')
   }
 }
 </script>

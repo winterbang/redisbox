@@ -1,6 +1,6 @@
 # Redisbox
 
-> An Redis gui
+> An Redis 图形化客户端
 
 #### Build Setup
 
@@ -21,11 +21,11 @@ npm test
 npm run lint
 
 ```
-gitment
 
 ---
 
-## 功能
+> ## 功能
+
 - Connections
   - [x] SELECT (选择新数据库)
   - [ ] AUTH (验证服务器命令)
@@ -41,13 +41,15 @@ gitment
   - [ ] EXPIRE (设置一个key的过期的秒数)
   - [ ] EXPIREAT (设置一个UNIXS时间戳的过期的时间)
 - String
-  - [x] GET ()
-  - [x] MGET ()
-  - [ ] SET
-  - [ ] MSET
+  - [x] GET (返回key的值)
+  - [x] MGET (获得多个key的值)
+  - [ ] SET (设置多个key的值)
+  - [ ] MSET (设置多个key的值)
   - [ ] APPEND
   - [ ] STRLEN (获取指定key值的长度)
-  - [ ] SETEX (设置过期的秒数)
+  - [ ] SETEX (同时设置过期的秒数和过期时间)
+  - [ ] SETNX (只有当该键不存在时设置该键的值)
+  - [ ] MSETNX (设置多个只有当该键不存在时设置该键的值)
   - [ ] EXPIREAT (设置一个UNIXS时间戳的过期的时间)
 - Others
   - [x] NewConnection 添加连接

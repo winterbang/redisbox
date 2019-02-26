@@ -5,7 +5,7 @@ import createLogger from 'vuex/dist/logger'
 import { createPersistedState } from 'vuex-electron'
 import initPlugin from './plugins/initPlugin'
 
-// import modules from './modules'
+import modules from './modules'
 
 Vue.use(Vuex)
 
@@ -15,12 +15,11 @@ export default new Vuex.Store({
     count: 0,
     connections: [],
     // curConnection: {},
-    curConnectionName: '',
-    locale: ''
+    curConnectionName: ''
   },
   getters: {
     curConnection: state => {
-      return state.connections.filter(connection => connection.name === state.curConnectionName)[0]
+      return state.connections.filter(connection => connection.name === state.curConnectionName)[0] || {}
     }
   },
   actions: {
@@ -73,7 +72,7 @@ export default new Vuex.Store({
     //   state.connections = payload
     // }
   },
-  // modules,
+  modules,
   plugins: [ createLogger(), createPersistedState(), initPlugin ],
   strict: process.env.NODE_ENV !== 'production',
   devtools: true

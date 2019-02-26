@@ -1,15 +1,22 @@
 <template>
-   <div class="" style="height: 100%;overflow-y: scroll">
-     <Layout style="height: 100%;width: 100%;">
-       <Sider hide-trigger width="80">
-         <nav-sider />
-       </Sider>
-       <Layout>
-         <transition  mode="out-in" name="fade">
-           <router-view></router-view>
-         </transition>
-       </Layout>
-     </Layout>
+   <div class="" style="height: calc(100% - 80px)">
+     <!-- <Split v-model="split1" min="560">
+        <div slot="left" style="height: 100%;"> -->
+          <Layout style="height: 100%;width: 100%;">
+            <Sider hide-trigger width="80">
+              <nav-sider />
+            </Sider>
+            <Layout>
+              <transition  mode="out-in" name="fade">
+                <router-view></router-view>
+              </transition>
+            </Layout>
+          </Layout>
+        <!-- </div>
+        <div slot="right" class="demo-split-pane">
+          <console/>
+        </div>
+     </Split> -->
    </div>
 </template>
 
@@ -19,14 +26,16 @@
 import { mapState, mapActions } from 'vuex'
 import NewConnection from '@/components/NewConnectionPage/Index'
 import NavSider from '@/components/NavSider/index'
+import ConsoleV from '@/pages/Console'
 // import { remote, shell } from 'electron'
 // const { dialog } = remote
 export default {
   name: 'alluring',
   computed: mapState(['connections']),
-  components: { NewConnection, NavSider },
+  components: { NewConnection, NavSider, console: ConsoleV },
   data () {
     return {
+      split1: 1, // 0.7,
       switchValue: '',
       color4: '',
       visibel: false,

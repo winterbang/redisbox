@@ -6,14 +6,8 @@
     "label": "import",
     "icon": "ios-folder-open-outline"
   }, {
-    "label": "share",
-    "icon": "ios-share-alt-outline"
-  }, {
     "label": "console",
     "icon": "ios-paper-outline"
-  }, {
-    "label": "donate",
-    "icon": "ios-card-outline"
   }, {
     "label": "conn info",
     "icon": "ios-cloud-done-outline"

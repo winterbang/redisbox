@@ -16,7 +16,7 @@
     </Table>
     <div class="toolbar-box">
       <div class="info">
-        100 keys in table; 0 key selected
+        <strong>100</strong> keys in DB{{0}}; <strong>0</strong> key selected
       </div>
       <div class="action">
         <Tooltip content="add" placement="top">

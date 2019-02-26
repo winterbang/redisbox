@@ -1,12 +1,15 @@
 <template>
   <div class="container">
-    <el-row :gutter="12">
-      <el-col :span="6" v-for="i in 16" @click.native="onDbn(i - 1)" :key="i" style="max-height: 80px">
-        <el-card shadow="hover" :body-style="{'background': '#409EFF', 'cursor': 'pointer', color: '#fff'}" >
+    <Row :gutter="12">
+      <Col :span="6" v-for="i in 16" @click.native="onDbn(i - 1)" :key="i" style="max-height: 80px">
+        <Card :bordered="false" shadow style="background: #409EFF;cursor: pointer; color: #fff">
+            DB{{i-1}} <Badge :count="sizes[i-1] || 0"></Badge>
+        </Card>
+        <!-- <el-card shadow="hover" :body-style="{'background': '#409EFF', 'cursor': 'pointer', color: '#fff'}" >
           DB{{i-1}} <Badge :count="sizes[i-1] || 0"></Badge>
-        </el-card>
-      </el-col>
-    </el-row>
+        </el-card> -->
+      </Col>
+    </Row>
   </div>
 </template>
 
