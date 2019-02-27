@@ -1,5 +1,5 @@
 theme: jekyll-theme-merlot
 show_downloads: true
 github:
-  zip_url: https://github.com/winterbang/redisbox/releases/download/v0.0.1-beta.1/redisbox-0.0.1-beta.1.dmg
-  tar_url: https://github.com/winterbang/redisbox/releases/download/v0.0.1-beta.1/redisbox-0.0.1-beta.1.dmg
+  zip_url: https://github.com/winterbang/redisbox/releases
+  tar_url: https://github.com/winterbang/redisbox/releases
