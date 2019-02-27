@@ -26,12 +26,12 @@ npm run lint
 ---
 
 ## 尝鲜版本预览
-![1](/www/images/v0.0.1/1.jpg)
-![1](/www/images/v0.0.1/2.jpg)
-![1](/www/images/v0.0.1/3.jpg)
-![1](/www/images/v0.0.1/4.jpg)
-![1](/www/images/v0.0.1/5.jpg)
-![1](/www/images/v0.0.1/6.jpg)
+![1](/docs/assets/images/v0.0.1/1.jpg)
+![1](/docs/assets/images/v0.0.1/2.jpg)
+![1](/docs/assets/images/v0.0.1/3.jpg)
+![1](/docs/assets/images/v0.0.1/4.jpg)
+![1](/docs/assets/images/v0.0.1/5.jpg)
+![1](/docs/assets/images/v0.0.1/6.jpg)
 
 ---
 
