@@ -1,7 +1,7 @@
 欢迎使用redis图形化客户端
 
 # 尝鲜版界面预览
-![Image](https://github.com/winterbang/redisbox/blob/master/www/images/v0.0.1/1.jpg)
+![Image](/www/images/v0.0.1/1.jpg)
 ![Image](https://github.com/winterbang/redisbox/blob/master/www/images/v0.0.1/2.jpg)
 ![Image](https://github.com/winterbang/redisbox/blob/master/www/images/v0.0.1/3.jpg)
 ![Image](https://github.com/winterbang/redisbox/blob/master/www/images/v0.0.1/4.jpg)
