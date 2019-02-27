@@ -14,7 +14,8 @@ export default {
   data () {
     return {
       tools,
-      visibel: false
+      visibel: false,
+      initForm: {}
     }
   },
   computed: {
@@ -24,9 +25,8 @@ export default {
     // }
   },
   methods: {
-    ...mapActions(['increment']),
+    ...mapActions(['addNewConnection']),
     onTool (label) {
-      console.log(label)
       switch (label) {
         case 'new conns':
           this.visibel = true
@@ -57,8 +57,15 @@ export default {
     showFileDialog () {
       dialog.showOpenDialog({ filters: [{ name: 'Json', extensions: ['json'] }], properties: ['openFile'], message: '选择要引用的文件' }, (filename) => {
         if (filename && filename.length === 1) {
-          this.dictorySelected = filename[0]
-          this.listingFile(this.dictorySelected)
+          fs.readFile(filename[0], 'utf8', (err, data) => {
+            if (err) throw err
+            let list = JSON.parse(data)
+            list.forEach((conn) => {
+              let {name, host, port, auth} = conn
+              this.addNewConnection({name, host, port, auth})
+            })
+            console.log(list)
+          })
         }
       })
     },
@@ -91,7 +98,6 @@ export default {
     $route (to, from) {
       console.log('toolbars header')
       this.dbIndex = to.params.id
-      console.log(to.params.id)
       let tool = this.tools.filter(tool => tool.label === 'conn info')[0]
       if (to.params.id) {
         if (tool) this.$set(tool, 'disabled', true)
@@ -113,6 +119,14 @@ export default {
   },
   created () {
     console.log('created toolbars header')
+  },
+  mounted () {
+    this.$bus.$on('openNewConnectionForm', ({index}) => {
+      console.log(index)
+      console.log(this.connections[index])
+      this.initForm = Object.assign({}, this.initForm, this.connections[index])
+      this.visibel = true
+    })
   }
 }
 </script>

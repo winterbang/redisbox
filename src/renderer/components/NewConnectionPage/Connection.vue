@@ -11,13 +11,17 @@
       </Input>
     </FormItem>
     <FormItem prop="port">
-      <Input type="text" v-model="formData.port" placeholder="Redis-server port (6379)">
+      <Input type="text" v-model="formData.port" placeholder="Redis-server port (6379)" number>
         <span slot="prepend">Port</span>
       </Input>
     </FormItem>
     <FormItem prop="auth">
       <Input type="password" v-model="formData.auth" placeholder="Redis-server authentication password">
         <span slot="prepend">Auth</span>
+      </Input>
+    </FormItem>
+    <FormItem prop="_id" hidden>
+      <Input type="password" v-model="formData._id" placeholder="id">
       </Input>
     </FormItem>
     <!-- <FormItem prop="color">
@@ -55,15 +59,17 @@
 <script>
 export default {
   name: 'connection',
+  props: ['initForm'],
   data () {
     return {
       formData: {
         name: '',
         host: '',
-        port: '',
+        port: null,
         auth: '',
         password: '',
-        color: '#fff'
+        color: '#fff',
+        _id: null
       },
       colors: ['#fff', '#19be6b', '#5cadff', '#ed4014', '#ff9900', '#FFA2D3', '#fadb14', '#c5c8ce'],
       ruleInline: {
@@ -75,13 +81,18 @@ export default {
           { type: 'string', min: 6, message: 'The host length cannot be less than 6 bits', trigger: 'blur' }
         ],
         port: { type: 'number', min: 1, max: 65535, message: 'The port have to be between 1 and 65535' }
-
       }
     }
   },
   methods: {
     pickColor (color) {
       this.formData.color = color
+    }
+  },
+  watch: {
+    // 如果想在props的更新后更新组件 必须监听props
+    initForm (value, old) {
+      this.formData = Object.assign({}, this.formData, value)
     }
   }
 }

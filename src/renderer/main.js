@@ -45,7 +45,9 @@ Vue.use(redisClient)
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.http = Vue.prototype.$http = axios
-Vue.config.productionTip = false
+let EventBus = new Vue()
+Vue.prototype.$bus = EventBus
+Vue.config.productionTip = false // 当前开发版本的提示
 
 /* eslint-disable no-new */
 new Vue({

@@ -1,14 +1,12 @@
 <template>
   <div class="rb-dialog" :style="{top: visibel ? 0: '-500px'}">
     <div style="height:100%;position:relative;padding-top: 30px">
-
       <Tabs :animated="false" type="card">
         <TabPane :label="tab" v-for="tab in tabs" :disabled="tab === 'SSH Tunnel'">
-          <connection v-if="tab === 'Connection'" ref="connection"></connection>
+          <connection v-if="tab === 'Connection'" ref="connection" :initForm="connForm"></connection>
           <ssl v-show="tab === 'SSH Tunnel'"></ssl>
         </TabPane>
       </Tabs>
-
 
       <!-- <div class="window-content" style="position:relative; top:-20px;height:450px;padding-top:28px;justify-content: center;background: #e8e6e8;border:20px solid #f5f5f4;">
         <connection v-show="currTab === 'Connection'" ref="connection" ></connection>
@@ -35,16 +33,23 @@ import ssl from './Ssl'
 const { dialog } = remote
 export default {
   name: 'new-connection',
-  props: ['visibel'],
+  props: ['visibel', 'initForm'],
   components: { connection, ssl },
   data () {
     return {
       currTab: 'Connection',
-      tabs: ['Connection', 'SSH Tunnel'] // ['Connection', 'SSL', 'SSH Tunnel', 'Advanced Settings']
+      tabs: ['Connection', 'SSH Tunnel'], // ['Connection', 'SSL', 'SSH Tunnel', 'Advanced Settings']
+      connForm: {}
+    }
+  },
+  watch: {
+    initForm (value, old) {
+      let {name, color, port, auth, host, _id} = value
+      this.connForm = Object.assign({}, this.connForm, {name, color, port, auth, host, _id})
     }
   },
   methods: {
-    ...mapActions(['addNewConnection']),
+    ...mapActions(['addNewConnection', 'updateConnection']),
     tabTo (tabName) {
       this.currTab = tabName
     },
@@ -72,10 +77,18 @@ export default {
     },
     onOk () {
       let formData = this.$refs.connection[0].formData
-      console.log(formData)
-      this.addNewConnection(formData)
+      if (formData._id) {
+        // 因为formData是个对象，所以必须复制改对象后传参数，不然vuex中的state会一直跟着变化
+        let payload = Object.assign({}, formData)
+        this.updateConnection(payload)
+        this.$Message.success('update successfully!')
+      } else {
+        this.addNewConnection(formData)
+        this.$Message.success('save successfully!')
+      }
       this.onCancel()
-      this.$Message.success('save successfully!')
+      //
+
       // this.$db.insert(formData, function (err, newDoc) {
       //   console.log(err)
       //   console.log(newDoc)

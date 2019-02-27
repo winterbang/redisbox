@@ -44,6 +44,9 @@ export default new Vuex.Store({
       }
       commit('addNewConnection', connection)
     },
+    updateConnection ({commit}, payload) {
+      commit('updateConnection', payload)
+    },
     deleteConnection ({commit}, payload) {
       commit('deleteConnection', payload)
     }
@@ -61,6 +64,11 @@ export default new Vuex.Store({
     addNewConnection (state, payload) {
       payload._id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
       state.connections.push(payload)
+    },
+    updateConnection (state, payload) {
+      let indx = state.connections.findIndex(conn => conn._id === payload._id)
+      Vue.set(state.connections, indx, payload)
+      // state.connections = Object.assign({}, this.formData, value)state.connections, indx, payload)
     },
     deleteConnection (state, payload) {
       let indx = state.connections.findIndex(conn => conn._id === payload)
