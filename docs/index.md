@@ -1,12 +1,12 @@
 欢迎使用redis图形化客户端
 
 # 尝鲜版界面预览
-![Image](../images/v0.0.1/1.jpg)
-![Image](../images/v0.0.1/2.jpg)
-![Image](../images/v0.0.1/3.jpg)
-![Image](../images/v0.0.1/4.jpg)
-![Image](../images/v0.0.1/5.jpg)
-![Image](../images/v0.0.1/6.jpg)
+![Image](/assets/images/v0.0.1/1.jpg)
+![Image](/assets/images/v0.0.1/2.jpg)
+![Image](/assets/images/v0.0.1/3.jpg)
+![Image](/assets/images/v0.0.1/4.jpg)
+![Image](/assets/images/v0.0.1/5.jpg)
+![Image](/assets/images/v0.0.1/6.jpg)
 ## 已经实现的功能
 - Connections
   - [x] SELECT (选择新数据库)
