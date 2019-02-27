@@ -1,6 +1,7 @@
 # Redisbox
+[Download](https://github.com/winterbang/redisbox/releases)
 
-> An Redis gui
+> An `Redis` gui client :desktop_computer:
 
 #### Build Setup
 
@@ -21,7 +22,16 @@ npm test
 npm run lint
 
 ```
-gitment
+
+---
+
+## 尝鲜版本预览
+![1](/www/images/v0.0.1/1.jpg)
+![1](/www/images/v0.0.1/2.jpg)
+![1](/www/images/v0.0.1/3.jpg)
+![1](/www/images/v0.0.1/4.jpg)
+![1](/www/images/v0.0.1/5.jpg)
+![1](/www/images/v0.0.1/6.jpg)
 
 ---
 
@@ -41,8 +51,8 @@ gitment
   - [ ] EXPIRE (设置一个key的过期的秒数)
   - [ ] EXPIREAT (设置一个UNIXS时间戳的过期的时间)
 - String
-  - [x] GET ()
-  - [x] MGET ()
+  - [x] GET (获取指定key值)
+  - [x] MGET (获取多个指定key的值)
   - [ ] SET
   - [ ] MSET
   - [ ] APPEND
@@ -53,8 +63,8 @@ gitment
   - [x] NewConnection 添加连接
   - [x] Infomation 关于Redisbox的信息
   - [x] Donate 捐赠
+  - [x] ExportConnection 导出连接到Json文件
   - [ ] ImportConnection 导入连接的Json文件
-  - [ ] ExportConnection 导出连接到Json文件
   - [ ] Setting 设置
   - [ ] Feedback 反馈
   - [ ] Share 分享应用
