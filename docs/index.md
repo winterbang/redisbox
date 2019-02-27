@@ -36,7 +36,7 @@
   - [x] Infomation 关于Redisbox的信息
   - [x] Donate 捐赠
   - [x] ExportConnection 导出连接到Json文件
-  - [ ] ImportConnection 导入连接的Json文件
+  - [x] ImportConnection 导入连接的Json文件
   - [ ] Setting 设置
   - [ ] Feedback 反馈
   - [ ] Share 分享应用

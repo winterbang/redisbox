@@ -1,6 +1,18 @@
-# Redisbox
-[Download](https://github.com/winterbang/redisbox/releases)
+<center>
+  <img src="src/renderer/assets/logo.png"  width="80px" height="80px">
+</center>
+<center>
+  [Download](https://github.com/winterbang/redisbox/releases) | [Homepage](http://www.redisbox.com/)
+</center>
+<center>
+  [![GitHub release](https://img.shields.io/github/release-pre/winterbang/redisbox.svg)](https://github.com/winterbang/redisbox/releases/latest)
 
+  [![GitHub](https://img.shields.io/github/license/winterbang/redisbox.svg)](https://github.com/winterbang/redisbox/blob/master/LICENSE)
+
+  [![GitHub All Releases](https://img.shields.io/github/downloads/winterbang/redisbox/total.svg)](https://github.com/winterbang/redisbox/releases/latest)
+</center>
+
+# Redisbox
 > An `Redis` gui client :desktop_computer:
 
 #### Build Setup
@@ -61,10 +73,11 @@ npm run lint
   - [ ] EXPIREAT (设置一个UNIXS时间戳的过期的时间)
 - Others
   - [x] NewConnection 添加连接
+  - [x] EditConnection 编辑连接
   - [x] Infomation 关于Redisbox的信息
   - [x] Donate 捐赠
   - [x] ExportConnection 导出连接到Json文件
-  - [ ] ImportConnection 导入连接的Json文件
+  - [x] ImportConnection 导入连接的Json文件
   - [ ] Setting 设置
   - [ ] Feedback 反馈
   - [ ] Share 分享应用
@@ -81,3 +94,5 @@ npm run lint
     - [highlight.js](https://github.com/isagalaev/highlight.js) v9.12.0
     - [PhotoSwipe](https://github.com/dimsemenov/PhotoSwipe) v4.1.2
     - [anchorjs](https://github.com/bryanbraun/anchorjs) v4.1.0 -->
+## Contributions
+    We welcome all contributions.You can submit any ideas as [pull requests](https://github.com/winterbang/redisbox/pulls) or as GitHub [issues](https://github.com/winterbang/redisbox/issues). 
