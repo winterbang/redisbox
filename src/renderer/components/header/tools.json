@@ -11,8 +11,5 @@
   }, {
     "label": "console",
     "icon": "ios-paper-outline"
-  }, {
-    "label": "conn info",
-    "icon": "ios-cloud-done-outline"
   }
 ]

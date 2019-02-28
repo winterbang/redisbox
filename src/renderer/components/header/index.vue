@@ -40,18 +40,6 @@ export default {
         case 'console':
           this.newWindow()
           break
-        case 'donate':
-          this.$Modal.info({
-            title: '捐赠',
-            content: label
-          })
-          break
-        case 'share':
-          this.$Modal.info({
-            title: '分享',
-            content: '分享连接已经复制到粘贴板'
-          })
-          break
       }
     },
     showFileDialog () {
@@ -104,7 +92,6 @@ export default {
       } else {
         this.$set(tool, 'disabled', false)
       }
-      console.log('query=========')
     }
   },
   beforeRouteEnter (to, from, next) {
@@ -122,8 +109,6 @@ export default {
   },
   mounted () {
     this.$bus.$on('openNewConnectionForm', ({index}) => {
-      console.log(index)
-      console.log(this.connections[index])
       this.initForm = Object.assign({}, this.initForm, this.connections[index])
       this.visibel = true
     })

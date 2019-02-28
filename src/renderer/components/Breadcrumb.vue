@@ -1,26 +1,28 @@
 <template>
-  <Breadcrumb separator=">" style="padding: 10px 10px;border-bottom: 1px dashed #ccc;margin-bottom: 10px;">
-    <BreadcrumbItem :to="{ name: 'Conns' }">conns</BreadcrumbItem>
-    <BreadcrumbItem :to="{ name: 'DbList', params: {id: curConnection._id } }">{{curConnectionName}}</BreadcrumbItem>
-    <BreadcrumbItem>
-      <select class="form-control" style="width: 80px;" v-model="dbIndex" @change="toDb" >
-        <option v-for="i in 16" :value="i-1" :key="i" >DB{{i-1}}</option>
-      </select>
-    </BreadcrumbItem>
-    <BreadcrumbItem :to="{ name: 'Keys', params: {id: dbIndex}, query: {text: keys.slice(0, keys.indexOf(key)+1)}}" v-for="key in keys" :key="key">
-      {{ key }}
-    </BreadcrumbItem>
-  </Breadcrumb>
-  <!-- <el-breadcrumb separator-class="el-icon-arrow-right" style="padding: 10px 10px;border-bottom: 1px dashed #ccc">
-    <el-breadcrumb-item :to="{ name: 'Conns' }">conns</el-breadcrumb-item>
-    <el-breadcrumb-item :to="{ name: 'DbList', params: {id: curConnection._id } }">{{curConnectionName}}</el-breadcrumb-item>
-    <el-breadcrumb-item>
-      <select class="form-control" style="width: 80px;" v-model="dbIndex" @change="toDb" >
-        <option v-for="i in 16" :value="i-1" :key="i">DB{{i-1}}</option>
-      </select>
-    </el-breadcrumb-item>
-    <el-breadcrumb-item :to="{ name: 'Keys', params: {id: dbIndex}, query: {text: keys.slice(0, keys.indexOf(key)+1)}}" v-for="key in keys" :key="key">{{key}}</el-breadcrumb-item>
-  </el-breadcrumb> -->
+  <div>
+    <Breadcrumb separator=">" style="padding: 10px 10px;border-bottom: 1px dashed #ccc;margin-bottom: 10px;">
+      <BreadcrumbItem :to="{ name: 'Conns' }">conns</BreadcrumbItem>
+      <BreadcrumbItem :to="{ name: 'DbList', params: {id: curConnection._id } }">
+        {{curConnectionName}} <Icon type="md-information-circle" @click.stop="onConnInfo"/>
+      </BreadcrumbItem>
+      <BreadcrumbItem>
+        <select class="form-control" style="width: 80px;" v-model="dbIndex" @change="toDb" >
+          <option v-for="i in 16" :value="i-1" :key="i" >DB{{i-1}}</option>
+        </select>
+      </BreadcrumbItem>
+      <BreadcrumbItem :to="{ name: 'Keys', params: {id: dbIndex}, query: {text: keys.slice(0, keys.indexOf(key)+1)}}" v-for="key in keys" :key="key">
+        {{ key }}
+      </BreadcrumbItem>
+    </Breadcrumb>
+    <Modal
+      :title="curConnectionName"
+      v-model="modalOfConnInfo"
+      scrollable
+      footer-hide
+      :styles="{top: '20px'}">
+      <pre>{{ connInfo }}</pre>
+    </Modal>
+  </div>
 </template>
 
 <script>
@@ -30,13 +32,25 @@ export default {
   data () {
     return {
       dbIndex: null,
-      keys: []
+      keys: [],
+      modalOfConnInfo: false,
+      connInfo: null
     }
   },
   methods: {
     toDb () {
       console.log('to db')
       this.$router.push({name: 'Keys', params: { id: this.dbIndex }})
+    },
+    onConnInfo () {
+      let client = this.redisClient(this.curConnection)
+      client.info((err, reply) => {
+        if (err) console.log(err)
+        // console.log(reply)
+        // console.log(typeof reply)
+        this.connInfo = reply
+      })
+      this.modalOfConnInfo = true
     }
   },
   computed: {
@@ -46,8 +60,6 @@ export default {
   watch: {
     $route (to, from) {
       this.dbIndex = to.params.id
-      console.log(to)
-      console.log('query=========')
       this.keys = to.params.key ? to.params.key.split(':') : to.query.text
     }
     // '$route.params.id': function (id) {

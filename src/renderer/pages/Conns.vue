@@ -16,7 +16,7 @@
          </Card>
        </Col>
 
-       <Col span="6">
+       <!-- <Col span="6">
          <Card :bordered="false" style="display:flex;justify-content: center;align-items: center;text-align:center;height: 125px;">
            <Icon type="ios-add-circle-outline" size="46" @click.native="visibel = true" title="Add a new connection"/>
            <Divider type="vertical" />
@@ -29,7 +29,7 @@
              </div>
            </Poptip>
          </Card>
-       </Col>
+       </Col> -->
 
        <Modal v-model="settingFormVisible" width="660" footer-hide :mask-closable="false">
         <p slot="header" style="color:#f60;text-align:center">
@@ -75,8 +75,7 @@ export default {
   methods: {
     ...mapActions(['setCurConnectionName', 'deleteConnection']),
     onDeleteConnection (connection) {
-
-      // this.deleteConnection(connection._id)
+      this.deleteConnection(connection._id)
     },
     onConnection (index) {
       let connection = this.connections[index]
@@ -95,7 +94,8 @@ export default {
     },
     onSetting (index) {
       this.connectionIndex = index
-      this.settingFormVisible = true
+      // this.settingFormVisible = true
+      this.$bus.$emit('openNewConnectionForm', { index })
     }
   },
   created () {
