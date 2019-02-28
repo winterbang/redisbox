@@ -1,5 +1,8 @@
 theme: jekyll-theme-merlot
 show_downloads: true
+title: Redisbox
+description: A SRedis GUI Client
 github:
   zip_url: https://github.com/winterbang/redisbox/releases
   tar_url: https://github.com/winterbang/redisbox/releases
+google_analytics: UA-135394550-1
