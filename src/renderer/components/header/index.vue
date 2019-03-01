@@ -83,16 +83,10 @@ export default {
     }
   },
   watch: {
-    $route (to, from) {
-      console.log('toolbars header')
-      this.dbIndex = to.params.id
-      let tool = this.tools.filter(tool => tool.label === 'conn info')[0]
-      if (to.params.id) {
-        if (tool) this.$set(tool, 'disabled', true)
-      } else {
-        this.$set(tool, 'disabled', false)
-      }
-    }
+    // $route (to, from) {
+    //   console.log('toolbars header')
+    //
+    // }
   },
   beforeRouteEnter (to, from, next) {
     console.log('beforeRouteEnter')

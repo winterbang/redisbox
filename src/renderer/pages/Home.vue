@@ -4,8 +4,8 @@
      <!-- <div>
        广告
      </div> -->
-     <Row :gutter="16" style="position: absolute; bottom: 20px">
-        <Col span="12" v-for="tool in buttons" :key="tool.label" @click.native="onButton(tool.label)">
+     <Row :gutter="16" style="position: absolute; bottom: 20px;">
+        <Col span="24" v-for="tool in buttons" :key="tool.label" @click.native="onButton(tool.label)">
           <Card bordered shadow :style="{background: tool.color}">
             <div style="text-align:center;color: #fff;" >
               <Icon :type="tool.icon" size="40"/>
@@ -48,10 +48,10 @@ export default {
           label: 'donate',
           icon: 'ios-card-outline',
           color: '#ff9900'
-        }, {
-          label: 'share',
-          icon: 'ios-share-alt-outline',
-          color: '#19be6b'
+        // }, {
+        //   label: 'share',
+        //   icon: 'ios-share-alt-outline',
+        //   color: '#19be6b'
         }
       ]
     }

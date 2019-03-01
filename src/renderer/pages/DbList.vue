@@ -3,11 +3,11 @@
     <Row :gutter="12">
       <Col :span="6" v-for="i in 16" @click.native="onDbn(i - 1)" :key="i" style="max-height: 80px">
         <Card :bordered="false" shadow style="background: #409EFF;cursor: pointer; color: #fff">
-            DB{{i-1}} <Badge :count="sizes[i-1] || 0"></Badge>
+          <Icon type="ios-list-box-outline" size="24"/>
+          <!-- <Icon type="md-list-box" size="24"/> -->
+          DB{{i-1}}
+          <Badge :count="sizes[i-1] || 0" type="normal" style="float: right;"></Badge>
         </Card>
-        <!-- <el-card shadow="hover" :body-style="{'background': '#409EFF', 'cursor': 'pointer', color: '#fff'}" >
-          DB{{i-1}} <Badge :count="sizes[i-1] || 0"></Badge>
-        </el-card> -->
       </Col>
     </Row>
   </div>
