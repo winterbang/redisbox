@@ -1,10 +1,9 @@
 <template>
-  <div @click="focusKey = ''" style="position: relative">
-    <div style="display: flex;margin-bottom: 10px">
-      <input v-model="searchText" class="form-control" type="text" placeholder="Search keys" style="width: 220px;">
-    </div>
+  <div @click="focusKey = ''" style="position: relative;">
 
-    <Table stripe :columns="columns" :data="filterKeys" size="small" highlight-row>
+    <Input v-model="searchText" class="form-control" type="text" placeholder="Search keys" style="width: 220px;margin: 0 0 10px 10px" />
+
+    <Table stripe :columns="columns" :data="filterKeys" size="small" highlight-row style="">
       <template slot-scope="{ row }" slot="name" >
         <strong :key="row.name">{{ row.name }}</strong>
       </template>
@@ -16,10 +15,10 @@
     </Table>
     <div class="toolbar-box">
       <div class="info">
-        <strong>100</strong> keys in DB{{0}}; <strong>0</strong> key selected
+        <strong>{{ dbsize }}</strong> keys in DB{{0}}; <strong>0</strong> key selected
       </div>
       <div class="action">
-        <Tooltip content="add" placement="top">
+        <Tooltip content="add" placement="top" @click.native="add">
           <Icon type="md-add" size="22"/>
         </Tooltip>
         <Divider type="vertical"/>
@@ -29,6 +28,10 @@
         <Divider type="vertical"/>
         <Tooltip content="download" placement="top-end">
           <Icon type="md-download" size="22" />
+        </Tooltip>
+        <Divider type="vertical"/>
+        <Tooltip content="delete" placement="top-end">
+          <Icon type="md-trash" size="22" />
         </Tooltip>
         <Divider type="vertical"/>
         <Tooltip content="clear" placement="top-end">
@@ -69,7 +72,8 @@ export default {
           width: 80,
           align: 'center'
         }
-      ]
+      ],
+      dbsize: 0
     }
   },
   computed: {
@@ -108,10 +112,25 @@ export default {
   methods: {
     fetchData () {
       let client = redis.createClient(this.curConnection)
+      console.log(client)
+      console.log(client.connection_id)
+      // client.list((err, reply) => {
+      //   if (err) return console.log(err)
+      //   console.log(reply)
+      // })
+      // client.client((err, reply) => {
+      //   if (err) return console.log(err)
+      //   console.log(reply)
+      // })
       client.select(this.dbIndex, () => {
         client.keys('*', (err, keys) => {
           if (err) return console.log(err)
           this.keys = keys
+        })
+
+        client.dbsize((err, reply) => {
+          if (err) return console.log(err)
+          this.dbsize = reply
         })
       })
     },
@@ -126,6 +145,17 @@ export default {
       menu.append(new MenuItem({label: 'Delete', click () { console.log('item 1 clicked') }}))
       menu.append(new MenuItem({type: 'separator'}))
       menu.popup({window: remote.getCurrentWindow()})
+    },
+    add () {
+      let client = this.redisClient(this.curConnection)
+      console.log(client.connection_id)
+      // client.select(this.dbIndex, () => {
+      //   // client.set('', (err, keys) => {
+      //   //   if (err) return console.log(err)
+      //   //   this.keys = keys
+      //   // })
+      //   console.log(client.connection_id)
+      // })
     }
   }
 }

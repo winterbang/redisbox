@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="breadcrumb-wrap">
     <Breadcrumb separator=">" style="padding: 10px 10px;border-bottom: 1px dashed #ccc;margin-bottom: 10px;">
       <BreadcrumbItem :to="{ name: 'Conns' }">conns</BreadcrumbItem>
       <BreadcrumbItem :to="{ name: 'DbList', params: {id: curConnection._id } }">
@@ -84,4 +84,13 @@ export default {
 }
 </script>
 <style lang="css" scoped>
+  .breadcrumb-wrap {
+    position: fixed;
+    left: 80px;
+    right: 0;
+    top: 80px;
+    z-index: 99;
+    background: snow;
+    box-shadow: 1px 1px 3px #ddd;
+  }
 </style>

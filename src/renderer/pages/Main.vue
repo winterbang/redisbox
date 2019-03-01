@@ -72,6 +72,7 @@ export default {
 
 <style lang="css" scoped>
   .wrap {
+    margin-top: 55px;
     margin-right: 18px; /* 修复隐藏滚动条带来的右偏移问题 */
   }
 
