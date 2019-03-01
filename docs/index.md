@@ -1,10 +1,3 @@
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<script>
-  (adsbygoogle = window.adsbygoogle || []).push({
-    google_ad_client: "ca-pub-3997077481342256",
-    enable_page_level_ads: true
-  });
-</script>
 欢迎使用redis图形化客户端
 
 # 尝鲜版界面预览
