@@ -1,21 +1,22 @@
 <template>
   <div style="height: 100%;overflow-y: scroll;padding: 0 20px">
     <Row :gutter="16" style="background:#eee;border-radius: 8px;">
-       <Col span="6" v-for="connection, idx in connections" :key="connection._id">
-         <Card :bordered="false" @click.native="onConnection(idx)" :style="{background: connection.color}">
-           <Icon type="ios-close" size="16" @click.stop="onDeleteConnection(connection)" style="position: absolute; top: 0;left: 0"/>
-           <p slot="title">
-             {{ connection.name }}
-           </p>
-           <div slot="extra" @click.stop="onSetting(idx)" >
-             <Icon type="ios-construct-outline" size="20"/>
+      <transition-group name="list-complete" tag="div">
+        <Col span="6" v-for="connection, idx in connections" :key="connection._id" class="list-complete-item">
+          <Card :bordered="false" @click.native="onConnection(idx)" :style="{background: connection.color}">
+            <Icon type="ios-close" size="16" @click.stop="onDeleteConnection(connection)" style="position: absolute; top: 0;left: 0"/>
+            <p slot="title">
+              {{ connection.name }}
+            </p>
+            <div slot="extra" @click.stop="onSetting(idx)" >
+              <Icon type="ios-construct-outline" size="20"/>
              <!-- <Icon type="ios-open-outline" /> -->
-           </div>
-           <p>Host: {{connection.host}}</p>
-           <p>Port: {{connection.port}}</p>
-         </Card>
-       </Col>
-
+            </div>
+            <p>Host: {{connection.host}}</p>
+            <p>Port: {{connection.port}}</p>
+          </Card>
+        </Col>
+      </transition-group>
        <!-- <Col span="6">
          <Card :bordered="false" style="display:flex;justify-content: center;align-items: center;text-align:center;height: 125px;">
            <Icon type="ios-add-circle-outline" size="46" @click.native="visibel = true" title="Add a new connection"/>
@@ -105,4 +106,14 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.list-complete-item {
+  transition: all 1s;
+}
+.list-complete-enter, .list-complete-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.list-complete-leave-active {
+  position: absolute;
+}
 </style>
