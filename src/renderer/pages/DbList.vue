@@ -47,15 +47,33 @@ export default {
     //   console.log(reply)
     // })
     // FIXME client对象生成的有点多，占内存
+    let promises = []
     for (let i = 0; i <= 15; i++) {
-      let client = this.redisClient({...this.curConnection, db: i})
-      client.select(i, () => {
-        client.dbsize((err, reply) => {
-          if (err) console.log(err)
-          this.$set(this.sizes, i, reply)
+      let p = new Promise((resolve) => {
+        let client = this.redisClient({...this.curConnection, db: i})
+        client.select(i, async () => {
+          await client.dbsize((err, reply) => {
+            if (err) console.log(err)
+            this.$set(this.sizes, i, reply)
+          })
+          resolve()
         })
       })
+      promises.push(p)
+
+      // let client = this.redisClient({...this.curConnection, db: i})
+      // client.select(i, () => {
+      //   client.dbsize((err, reply) => {
+      //     if (err) console.log(err)
+      //     this.$set(this.sizes, i, reply)
+      //   })
+      // })
     }
+    Promise.all(promises).then((allData) => {
+      console.log(allData)
+    }).catch((err) => {
+      console.log(err)
+    })
   }
 }
 </script>

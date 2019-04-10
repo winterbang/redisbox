@@ -1,8 +1,8 @@
 <template>
-   <div class="" style="height: calc(100% - 80px)">
-     <!-- <Split v-model="split1" min="560">
-        <div slot="left" style="height: 100%;"> -->
-          <Layout style="height: 100%;width: 100%;">
+   <div class="" style="height: calc(100% - 80px);">
+     <Split v-model="split" min="560">
+        <div slot="left" style="height: 100%;">
+          <Layout style="height: 100%;">
             <Sider hide-trigger width="80">
               <nav-sider />
             </Sider>
@@ -12,11 +12,11 @@
               </transition>
             </Layout>
           </Layout>
-        <!-- </div>
-        <div slot="right" class="demo-split-pane">
-          <console/>
         </div>
-     </Split> -->
+        <div slot="right" style="height: 100%;">
+          <!-- <console/> -->
+        </div>
+     </Split>
    </div>
 </template>
 
@@ -35,7 +35,7 @@ export default {
   components: { NewConnection, NavSider, console: ConsoleV },
   data () {
     return {
-      split1: 1, // 0.7,
+      split: 1, // 0.7,
       switchValue: '',
       color4: '',
       visibel: false,
@@ -44,6 +44,11 @@ export default {
   },
   methods: {
     ...mapActions(['setCurConnectionName', 'deleteConnection'])
+  },
+  created () {
+    this.$bus.$on('triggerConsole', (event) => {
+      this.split = this.split === 1 ? 0.7 : 1
+    })
   },
   beforeRouteUpdate (to, from, next) {
     console.log(to)

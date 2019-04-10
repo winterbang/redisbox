@@ -16,12 +16,16 @@
         <Button style="margin-left: 8px">Cancel</Button>
       </FormItem>
     </Form>
-    感谢您对有道的支持！
+    感谢您对Redisbox的支持！
     我们相信您的反馈能让Redisbox日趋完善，能让更多的人以更有效的方式使用Redis数据库。
+    <!-- <webview id="foo" src="https://blog.zhangmoumou.com/redisbox" style="display:inline-flex; width:640px; height:480px"></webview> -->
+
   </div>
 </template>
 
 <script>
+// import Gitment from 'gitment'
+
 export default {
   name: 'feedback',
   data () {
@@ -39,6 +43,8 @@ export default {
       }
     }
   },
+  mounted () {
+  },
   beforeRouteEnter (to, from, next) {
     console.log(to)
     console.log('query=========')
@@ -51,6 +57,5 @@ export default {
   }
 }
 </script>
-
 <style lang="css" scoped>
 </style>

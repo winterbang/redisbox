@@ -1,12 +1,12 @@
 <template>
   <div style="overflow-y: scroll;display:flex;justify-content: center;padding:20px 0">
-     <Card title="About Redisbox" icon="ios-options" :padding="0" shadow style="width: 70%">
+    <Card title="About Redisbox" icon="ios-options" :padding="0" shadow style="width: 70%">
       <CellGroup>
-         <Cell title="Version" extra="1.0.0" />
-         <Cell title="Github" extra="https://winterbang.github.com/redisbox" to="https://github.com" />
+         <Cell title="Version" :extra="version" />
+         <Cell title="Github" extra="https://winterbang.github.com/redisbox" to="https://winterbang.github.com/redisbox" />
          <Cell title="Website" @click.native="openBrowser()">
            <div slot="extra">
-             https://winterbang.github.com/redisbox
+             https://blog.zhangmoumou.com/redisbox
              <Icon type="ios-browsers-outline" size="22" />
            </div>
          </Cell>
@@ -25,14 +25,23 @@
 import { shell } from 'electron'
 export default {
   name: 'information',
+  data () {
+    return {
+      version: ''
+    }
+  },
   methods: {
     openBrowser (url = 'https://blog.zhangmoumou.com') {
       shell.openExternal(url)
     }
+  },
+  created () {
+    this.version = process.env.npm_package_version
+    // console.log(procwwwess.env)
   }
 }
 </script>
-<style lang="scss" scoped>
+<style lang="css" scoped>
 .ivu-card-head p {
   font-size: 36px;
   height: 36px

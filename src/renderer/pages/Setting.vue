@@ -1,8 +1,9 @@
 <template>
-  <div style="overflow-y: scroll; display: flex;justify-content: center;margin: 0 auto;padding: 20px">
-    <Form>
-      <FormItem label="语言">
-        <Select v-model="formData.language" style="width:200px">
+  <div style="display: flex;justify-content: center;margin: 0 auto;padding: 20px">
+    <Form :label-width="70">
+    <!-- <Form style="width: 57%;margin: 0 auto;"> -->
+      <FormItem label="Language">
+        <Select v-model="formData.language" disabled>
           <Option v-for="item in ['中文', 'English']" :value="item" :key="item">{{ item }}</Option>
         </Select>
       </FormItem>
@@ -36,7 +37,7 @@ export default {
       switchValue: '',
       formData: {
         windowModal: 'single', // multiple
-        language: ''
+        local: 'zh-cn'
       }
     }
   }

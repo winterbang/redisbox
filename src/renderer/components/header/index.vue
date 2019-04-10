@@ -38,7 +38,8 @@ export default {
           this.onExport()
           break
         case 'console':
-          this.newWindow()
+          this.$bus.$emit('triggerConsole')
+          // this.newWindow()
           break
       }
     },
