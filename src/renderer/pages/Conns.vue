@@ -1,6 +1,11 @@
 <template>
   <div style="height: 100%;overflow-y: scroll;padding: 0 20px">
-    <Row :gutter="16" style="background:#eee;border-radius: 8px;">
+    <template v-if="connections.length == 0">
+      <div style="display: flex; justify-content: center;align-items:center;">
+        <i-button type="text" size="large">服务器面板是空的，快新建一个吧！</i-button>
+      </div>
+    </template>
+    <Row v-else :gutter="16" style="background:#eee;border-radius: 8px;">
       <transition-group name="list-complete" tag="div">
         <Col span="6" v-for="connection, idx in connections" :key="connection._id" class="list-complete-item">
           <Card :bordered="false" @click.native="onConnection(idx)" :style="{background: connection.color}">
@@ -10,7 +15,7 @@
             </p>
             <div slot="extra" @click.stop="onSetting(idx)" >
               <Icon type="ios-construct-outline" size="20"/>
-             <!-- <Icon type="ios-open-outline" /> -->
+            <!-- <Icon type="ios-open-outline" /> -->
             </div>
             <p>Host: {{connection.host}}</p>
             <p>Port: {{connection.port}}</p>

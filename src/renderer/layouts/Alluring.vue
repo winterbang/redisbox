@@ -3,7 +3,7 @@
      <Split v-model="split" min="560">
         <div slot="left" style="height: 100%;">
           <Layout style="height: 100%;">
-            <Sider hide-trigger width="80">
+            <Sider hide-trigger width="50">
               <nav-sider />
             </Sider>
             <Layout>
