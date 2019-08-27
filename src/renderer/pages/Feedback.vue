@@ -3,17 +3,17 @@
     <Alert show-icon>您的意见是我们不断进步的动力，请留下您在使用中遇到的问题或提出宝贵的建议。</Alert>
     <Form :model="formItem" :label-width="80">
       <FormItem label="Detail">
-        <Input v-model="formItem.textarea" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..."></Input>
+        <Input v-model="formItem.detail" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..."></Input>
       </FormItem>
       <FormItem label="称呼">
-        <Input v-model="formItem.input" placeholder="Enter something..."></Input>
+        <Input v-model="formItem.username" placeholder="Enter your call"></Input>
       </FormItem>
       <FormItem label="Email">
-        <Input v-model="formItem.input" placeholder="Enter your email"></Input>
+        <Input v-model="formItem.email" placeholder="Enter your email"></Input>
       </FormItem>
       <FormItem>
-        <Button type="primary">Submit</Button>
-        <Button style="margin-left: 8px">Cancel</Button>
+        <Button type="primary" @click="onSubmit">Submit</Button>
+        <!-- <Button style="margin-left: 8px">Cancel</Button> -->
       </FormItem>
     </Form>
     感谢您对Redisbox的支持！
@@ -31,16 +31,15 @@ export default {
   data () {
     return {
       formItem: {
-        input: '',
-        select: '',
-        radio: 'male',
-        checkbox: [],
-        switch: true,
-        date: '',
-        time: '',
-        slider: [20, 50],
-        textarea: ''
+        detail: '',
+        email: '',
+        username: ''
       }
+    }
+  },
+  methods: {
+    onSubmit () {
+      window.open(`mailto:2725843804@qq.com?subject=${this.formItem.username}+${this.formItem.email}&body=${this.formItem.detail}`)
     }
   },
   mounted () {
