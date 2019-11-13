@@ -22,7 +22,7 @@
           <Icon type="md-add" size="22"/>
         </Tooltip>
         <Divider type="vertical"/>
-        <Tooltip content="refresh" placement="top">
+        <Tooltip content="refresh" placement="top" @click.native="refresh">
           <Icon type="md-refresh" size="22" title="refresh"/>
         </Tooltip>
         <Divider type="vertical"/>
@@ -156,6 +156,9 @@ export default {
       //   // })
       //   console.log(client.connection_id)
       // })
+    },
+    refresh () {
+      this.fetchData()
     }
   }
 }
