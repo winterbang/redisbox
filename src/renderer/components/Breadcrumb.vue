@@ -10,6 +10,9 @@
           <option v-for="i in 16" :value="i-1" :key="i" >DB{{i-1}}</option>
         </select>
       </BreadcrumbItem>
+      <BreadcrumbItem v-if="dbIndex != null" :to="{ name: 'Keys', params: {id: dbIndex} }">
+        All
+      </BreadcrumbItem>
       <BreadcrumbItem :to="{ name: 'Keys', params: {id: dbIndex}, query: {text: keys.slice(0, keys.indexOf(key)+1)}}" v-for="key in keys" :key="key">
         {{ key }}
       </BreadcrumbItem>
@@ -38,6 +41,15 @@ export default {
     }
   },
   methods: {
+    initDbIndex (route) {
+      if (route.name === 'Keys' || route.name === 'Detail') {
+        this.dbIndex = route.params.id
+        this.keys = route.params.key ? route.params.key.split(':') : route.query.text
+      } else {
+        this.dbIndex = null
+        this.keys = []
+      }
+    },
     toDb () {
       console.log('to db')
       this.$router.push({name: 'Keys', params: { id: this.dbIndex }})
@@ -59,8 +71,7 @@ export default {
   },
   watch: {
     $route (to, from) {
-      this.dbIndex = to.params.id
-      this.keys = to.params.key ? to.params.key.split(':') : to.query.text
+      this.initDbIndex(to)
     }
     // '$route.params.id': function (id) {
     //
@@ -68,8 +79,7 @@ export default {
     // }
   },
   created () {
-    this.dbIndex = this.$route.params.id
-    if (this.$route.params.key) this.keys = this.$route.params.key.split(':')
+    this.initDbIndex(this.$route)
   }
   // beforeRouteEnter (to, from, next) {
   //   console.log('beforeRouteEnter')
