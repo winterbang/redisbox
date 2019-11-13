@@ -97,6 +97,13 @@ export default {
         console.log('dblist')
         this.$router.push({name: 'DbList', params: { id: connection._id }})
       })
+
+      // navigate if client is already connected
+      if (client.connected) {
+        this.setCurConnectionName(connection.name)
+        console.log('connected')
+        this.$router.push({name: 'DbList', params: { id: connection._id }})
+      }
     },
     onSetting (index) {
       this.connectionIndex = index
