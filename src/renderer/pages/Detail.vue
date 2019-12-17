@@ -33,7 +33,10 @@
     </div>
     <div class="toolbar-box">
       <div class="info">
-        Key: <Button type="dashed" size="small">{{ key }}</Button>
+        Key:
+        <Tooltip :content="key" placement="top-start">
+          <content style="max-width:auto">{{key.substr(0, 3)}}...{{key.substring(key.length-3)}}</content>
+        </Tooltip>
         TTL: <Button type="dashed" size="small">{{ -1 }}</Button>
         Size: <Button type="dashed" size="small">{{ size }}</Button>
         Type: <Tag color="cyan">{{ type }}</Tag>
@@ -166,5 +169,8 @@ export default {
 }
 </script>
 
-<style lang="css" scoped>
+<style lang="css">
+  .ivu-tooltip-inner {
+    max-width: none;
+  }
 </style>

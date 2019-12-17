@@ -1,8 +1,8 @@
 <template>
   <div style="height: 100%;overflow-y: scroll;padding: 0 20px">
     <template v-if="connections.length == 0">
-      <div style="display: flex; justify-content: center;align-items:center;">
-        <i-button type="text" size="large">服务器面板是空的，快新建一个吧！</i-button>
+      <div style="position: fixed;top: 52px;left: 51px">
+        <Tooltip content="服务器面板是空的，快新建一个吧！" placement="bottom-start" :always="true"></Tooltip>
       </div>
     </template>
     <Row v-else :gutter="16" style="background:#eee;border-radius: 8px;">

@@ -96,7 +96,7 @@ export default {
 <style lang="css" scoped>
   .breadcrumb-wrap {
     position: fixed;
-    left: 80px;
+    left: 50px;
     right: 0;
     top: 80px;
     z-index: 99;

@@ -18,12 +18,25 @@
         <strong>{{ dbsize }}</strong> keys in DB{{0}}; <strong>0</strong> key selected
       </div>
       <div class="action">
-        <Tooltip content="add" placement="top" @click.native="add">
-          <Icon type="md-add" size="22"/>
+        <Tooltip content="add" placement="top">
+          <Icon type="md-add" size="22" @click="modalOfAdd = true"/>
+          <Modal
+            v-model="modalOfAdd"
+            title="新增"
+            @on-ok="modalOfAddOk"
+            @on-cancel="modalOfAddCancel">
+
+            <Input v-model="newKey" placeholder="Enter the new key." style="width: 300px">
+              <span slot="prepend">Key</span>
+            </Input>
+
+            <Input v-model="newValue" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter the new value."></Input>
+
+          </Modal>
         </Tooltip>
         <Divider type="vertical"/>
-        <Tooltip content="refresh" placement="top" @click.native="refresh">
-          <Icon type="md-refresh" size="22" title="refresh"/>
+        <Tooltip content="refresh" placement="top">
+          <Icon type="md-refresh" size="22" title="refresh" @click="onRefresh"/>
         </Tooltip>
         <Divider type="vertical"/>
         <Tooltip content="download" placement="top-end">
@@ -58,11 +71,15 @@ export default {
       focusKey: '',
       columns: [
         {
+          type: 'selection',
+          width: 60,
+          align: 'center'
+        }, {
           title: 'Key',
           key: 'name'
-        }, {
-          title: 'Type',
-          key: 'type'
+        // }, {
+        //   title: 'Type',
+        //   key: 'type'
         }, {
           title: 'Value',
           key: 'value'
@@ -73,7 +90,10 @@ export default {
           align: 'center'
         }
       ],
-      dbsize: 0
+      dbsize: 0,
+      modalOfAdd: false,
+      newKey: '',
+      newValue: ''
     }
   },
   computed: {
@@ -146,18 +166,22 @@ export default {
       menu.append(new MenuItem({type: 'separator'}))
       menu.popup({window: remote.getCurrentWindow()})
     },
-    add () {
-      let client = this.redisClient(this.curConnection)
-      console.log(client.connection_id)
-      // client.select(this.dbIndex, () => {
-      //   // client.set('', (err, keys) => {
-      //   //   if (err) return console.log(err)
-      //   //   this.keys = keys
-      //   // })
-      //   console.log(client.connection_id)
-      // })
+    modalOfAddOk () {
+      if (this.newKey) {
+        let client = this.redisClient(this.curConnection)
+        client.select(this.dbIndex, () => {
+          client.set(this.newKey, this.newValue, (err, keys) => {
+            if (err) return console.log(err)
+            this.keys = keys
+          })
+          console.log(client.connection_id)
+        })
+      }
     },
-    refresh () {
+    modalOfAddCancel () {
+
+    },
+    onRefresh () {
       this.fetchData()
     }
   }
