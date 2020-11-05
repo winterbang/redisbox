@@ -34,20 +34,21 @@ export default new Vuex.Store({
     //   console.log('payload==============')
     //   store.commit('syncConnections', payload)
     // }
-    setCurConnectionName ({commit}, payload) {
+    setCurConnectionName ({ commit }, payload) {
       commit('setCurConnectionName', payload)
     },
-    addNewConnection ({commit}, payload) {
-      let connection = {}
-      for (let key in payload) {
+    addNewConnection ({ commit }, payload) {
+      const connection = {}
+      for (const key in payload) {
         connection[key] = payload[key]
       }
+      console.log(connection, '============')
       commit('addNewConnection', connection)
     },
-    updateConnection ({commit}, payload) {
+    updateConnection ({ commit }, payload) {
       commit('updateConnection', payload)
     },
-    deleteConnection ({commit}, payload) {
+    deleteConnection ({ commit }, payload) {
       commit('deleteConnection', payload)
     }
   },
@@ -66,12 +67,12 @@ export default new Vuex.Store({
       state.connections.push(payload)
     },
     updateConnection (state, payload) {
-      let indx = state.connections.findIndex(conn => conn._id === payload._id)
+      const indx = state.connections.findIndex(conn => conn._id === payload._id)
       Vue.set(state.connections, indx, payload)
       // state.connections = Object.assign({}, this.formData, value)state.connections, indx, payload)
     },
     deleteConnection (state, payload) {
-      let indx = state.connections.findIndex(conn => conn._id === payload)
+      const indx = state.connections.findIndex(conn => conn._id === payload)
       // console.log(indx)
       // let indx = state.connections.indexOf(payload)
       state.connections.splice(indx, 1)
@@ -81,7 +82,7 @@ export default new Vuex.Store({
     // }
   },
   modules,
-  plugins: [ createLogger(), createPersistedState(), initPlugin ],
+  plugins: [createLogger(), createPersistedState(), initPlugin],
   strict: process.env.NODE_ENV !== 'production',
   devtools: true
 })

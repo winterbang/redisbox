@@ -1,5 +1,5 @@
 <template src="./template.html"></template>
-<style src="./style.scss" lang="scss" scoped></style>
+<style src="./style.less" lang="less" scoped></style>
 <script>
 import { mapState, mapActions } from 'vuex'
 
@@ -10,16 +10,16 @@ export default {
       navs: [
         {
           label: 'conns',
-          icon: 'ios-apps-outline'
+          icon: 'database'
         }, {
           label: 'setting',
-          icon: 'ios-cog-outline'
+          icon: 'setting'
         }, {
           label: 'feedback',
-          icon: 'ios-chatboxes-outline'
+          icon: 'message'
         }, {
           label: 'information',
-          icon: 'ios-information-circle-outline'
+          icon: 'info-circle'
         }
       ],
       activeLabel: ''
@@ -38,7 +38,8 @@ export default {
     }
   },
   created () {
-    // console.log(this.$route.matched[0])
+    console.log(this.curConnectionName)
+    console.log(this.$route.name)
   }
   // beforeRouteUpdate (to, from, next) {
   //   console.log(to.name.toLowerCase())

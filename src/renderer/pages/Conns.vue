@@ -7,15 +7,14 @@
     </template>
     <Row v-else :gutter="16" style="background:#eee;border-radius: 8px;">
       <transition-group name="list-complete" tag="div">
-        <Col span="6" v-for="connection, idx in connections" :key="connection._id" class="list-complete-item">
+        <Col span="6" v-for="connection in connections" :key="connection._id" class="list-complete-item">
           <Card :bordered="false" @click.native="onConnection(idx)" :style="{background: connection.color}">
-            <Icon type="ios-close" size="16" @click.stop="onDeleteConnection(connection)" style="position: absolute; top: 0;left: 0"/>
-            <p slot="title">
-              {{ connection.name }}
+            <Icon type="ios-close" size="16" @click.stop="onDeleteConnection(connection)" style="position: absolute; top: 0;left: 0"></Icon>
+            <p slot="title" contenteditable="true">
+              {{ connection.name || '未命名' }}
             </p>
             <div slot="extra" @click.stop="onSetting(idx)" >
-              <Icon type="ios-construct-outline" size="20"/>
-            <!-- <Icon type="ios-open-outline" /> -->
+              <Icon type="ios-construct-outline" size="20"> </Icon>
             </div>
             <p>Host: {{connection.host}}</p>
             <p>Port: {{connection.port}}</p>
@@ -37,13 +36,12 @@
          </Card>
        </Col> -->
 
-       <Modal v-model="settingFormVisible" width="660" footer-hide :mask-closable="false">
+      <Modal v-model="settingFormVisible" width="660" footer-hide :mask-closable="false">
         <p slot="header" style="color:#f60;text-align:center">
           <Icon type="ios-cloud-circle-outline" size="22"/>
           <!-- <span>{{ connections[connectionIndex].name}}</span> -->
         </p>
         <div style="display:flex;justify-content: space-around;align-items: center">
-
         </div>
       </Modal>
       <!-- <Modal v-model="deleteConfirmModel" width="360">
@@ -127,5 +125,6 @@ export default {
 }
 .list-complete-leave-active {
   position: absolute;
+
 }
 </style>

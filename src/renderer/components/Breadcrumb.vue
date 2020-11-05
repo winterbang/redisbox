@@ -1,6 +1,6 @@
 <template>
   <div class="breadcrumb-wrap">
-    <Breadcrumb separator=">" style="padding: 10px 10px;border-bottom: 1px dashed #ccc;margin-bottom: 10px;">
+    <Breadcrumb separator=">" style="padding: 10px 10px;">
       <BreadcrumbItem :to="{ name: 'Conns' }">conns</BreadcrumbItem>
       <BreadcrumbItem :to="{ name: 'DbList', params: {id: curConnection._id } }">
         {{curConnectionName}} <Icon type="md-information-circle" @click.stop="onConnInfo"/>

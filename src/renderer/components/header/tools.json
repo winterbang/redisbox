@@ -1,15 +1,15 @@
 [
   {
     "label": "new conns",
-    "icon": "ios-add-circle-outline"
+    "icon": "plus-circle"
   }, {
     "label": "import",
-    "icon": "ios-folder-open-outline"
+    "icon": "folder-open"
   }, {
     "label": "export",
-    "icon": "ios-print-outline"
+    "icon": "export"
   }, {
     "label": "console",
-    "icon": "ios-paper-outline"
+    "icon": "printer"
   }
 ]

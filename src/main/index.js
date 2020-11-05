@@ -12,7 +12,7 @@ if (process.env.NODE_ENV !== 'development') {
 
 let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
-  ? `http://localhost:9080`
+  ? 'http://localhost:9080'
   : `file://${__dirname}/index.html`
 
 function createWindow () {
@@ -28,10 +28,14 @@ function createWindow () {
     // frame: false,
     titleBarStyle: 'hidden',
     // titleBarStyle: 'hiddenInset',
-    // titlebarAppearsTransparent: true,
-    center: true
+    // titleBarAppearsTransparent: true,
+    center: true,
     // 'standard-window': false
     // backgroundColor: '#2e2c29'
+    webPreferences: {
+      nodeIntegration: true,
+      enableRemoteModule: true, // 允许在渲染进程中使用remote 模块
+    }
   })
 
   mainWindow.loadURL(winURL)
@@ -76,7 +80,7 @@ ipcMain.on('openConsole', function (e, data) {
   const modalPath = process.env.NODE_ENV === 'development'
     ? 'http://localhost:9080/#/console'
     : `file://${__dirname}/index.html#/console`
-  let win = new BrowserWindow({ width: 1000, height: 620, webPreferences: {webSecurity: false}, parent: mainWindow })
+  let win = new BrowserWindow({ width: 1000, height: 620, webPreferences: { webSecurity: false }, parent: mainWindow })
   win.on('close', function () { win = null })
   console.log(modalPath)
   win.loadURL(modalPath)

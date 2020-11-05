@@ -8,6 +8,7 @@
         <!-- </FormItem> -->
         <!-- <textarea name="name" rows="8" cols="80" v-model="reply" style="width: 100%;resize: vertical;"/> -->
       </template>
+      <!-- list show -->
       <template v-else-if="type === 'list'">
         <el-table :data="reply" border>
           <el-table-column type="index" :index="indexMethod" />
@@ -29,6 +30,10 @@
             :total="size">
           </el-pagination>
         </div>
+      </template v-else-if="type === 'hash'">
+        <Input v-model="content" type="textarea" :autosize="{minRows: 2,maxRows: 18}" placeholder="Enter something..." ></Input>
+      <template>
+
       </template>
     </div>
     <div class="toolbar-box">
@@ -42,27 +47,33 @@
         Type: <Tag color="cyan">{{ type }}</Tag>
       </div>
       <div class="action">
+        <!-- 重命名key -->
         <Tooltip content="rename" placement="top">
           <Icon type="md-create" size="22"/>
         </Tooltip>
         <Divider type="vertical"/>
+        <!-- 复制value -->
         <Tooltip content="copy" placement="top" @click.native="onCopy">
           <Icon type="md-copy" size="22"/>
         </Tooltip>
         <Divider type="vertical"/>
+        <!-- 添加 -->
         <Tooltip content="add" placement="top">
           <Icon type="md-add" size="22"/>
         </Tooltip>
         <Divider type="vertical"/>
+        <!-- 刷新 -->
         <Tooltip content="refresh" placement="top">
           <Icon type="md-refresh" size="22" title="refresh"/>
         </Tooltip>
         <Divider type="vertical"/>
+        <!-- 下载到文本中 -->
         <Tooltip content="download" placement="top">
           <Icon type="md-download" size="22" />
         </Tooltip>
         <Divider type="vertical"/>
-        <Tooltip content="delete" placement="top-end">
+        <!-- 删除 -->
+        <Tooltip content="delete" placement="top-end" @click.native="onDelete">
           <Icon type="md-trash" size="22" />
         </Tooltip>
         <Divider type="vertical"/>
@@ -93,7 +104,7 @@ export default {
       key: '',
       db: 0,
       reply: null,
-      type: null, // ['list', 'string']
+      type: null, // ['list', 'string', 'hash']
       size: 10,
       textStyle: 'Json' // ['Json', 'Plain Text', 'HEX']
     }
@@ -111,6 +122,20 @@ export default {
       clipboard.writeText(this.content)
       this.$Notice.info({
         desc: '已经复制到粘贴板'
+      })
+    },
+    onDelete () {
+      let client = this.redisClient(this.curConnection)
+      client.select(this.db, () => {
+        client.del(this.key, (err, type) => {
+          if (err) {
+            return console.log(err)
+          } else {
+            this.$Notice.info({
+              desc: '删除成功'
+            })
+          }
+        })
       })
     }
   },
@@ -160,6 +185,13 @@ export default {
               if (err) return console.log(err)
               console.log(reply)
               this.reply = JSON.parse(reply)
+            })
+            break
+          case 'hash':
+            client.hgetall(this.key, (err, reply) => {
+              if (err) return console.log(err)
+              console.log(reply)
+              this.reply = reply
             })
             break
         }

@@ -1,12 +1,12 @@
 <template>
   <div class="rb-dialog" :style="{top: visibel ? 0: '-500px'}">
     <div style="height:100%;position:relative;padding-top: 30px">
-      <Tabs :animated="false" type="card">
-        <TabPane :label="tab" v-for="tab in tabs" :disabled="tab === 'SSH Tunnel'">
+      <a-tabs :animated="false" type="card">
+        <a-tab-pane :tab="tab" v-for="tab in tabs" :key="tab">
           <connection v-if="tab === 'Connection'" ref="connection" :initForm="connForm"></connection>
-          <ssl v-show="tab === 'SSH Tunnel'"></ssl>
-        </TabPane>
-      </Tabs>
+          <ssh v-show="tab === 'SSH Tunnel'"></ssh>
+        </a-tab-pane>
+      </a-tabs>
 
       <!-- <div class="window-content" style="position:relative; top:-20px;height:450px;padding-top:28px;justify-content: center;background: #e8e6e8;border:20px solid #f5f5f4;">
         <connection v-show="currTab === 'Connection'" ref="connection" ></connection>
@@ -14,10 +14,10 @@
       </div> -->
 
       <footer>
-        <Button size="small" @click="onTestConnection">Test Connection</Button>
+        <a-button size="small" @click="onTestConnection">Test Connection</a-button>
         <div>
-          <Button type="info" size="small" @click="onOk">Save</Button>
-          <Button type="text" size="small" @click="onCancel" >Cancel</Button>
+          <a-button type="info" size="small" @click="onOk">Save</a-button>
+          <a-button type="text" size="small" @click="onCancel" >Cancel</a-button>
         </div>
       </footer>
     </div>
@@ -30,11 +30,12 @@ import { mapActions } from 'vuex'
 import { remote } from 'electron'
 import connection from './Connection'
 import ssl from './Ssl'
+import ssh from './Ssh'
 const { dialog } = remote
 export default {
   name: 'new-connection',
   props: ['visibel', 'initForm'],
-  components: { connection, ssl },
+  components: { connection, ssl, ssh },
   data () {
     return {
       currTab: 'Connection',
@@ -54,7 +55,7 @@ export default {
       this.currTab = tabName
     },
     onCancel () {
-      this.$refs.connection[0].$refs['formRef'].resetFields()
+      this.$refs.connection[0].$refs['formRef'].form.resetFields()
       this.$emit('update:visibel', false)
     },
     onTestConnection () {

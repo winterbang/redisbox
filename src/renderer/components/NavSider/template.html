@@ -2,14 +2,13 @@
   <div style="height: 90px;display:flex;justify-content: center;align-items: center">
     <img src="@/assets/logo.png" width="80%" @click="onNav('home')">
   </div>
-
   <div style="min-height: 125px;">
-    <Row v-for="nv,idx in navs" :key="`nv${idx}`" :class="{active: nv.label === activeLabel, animated: nv.label === activeLabel, pulse: nv.label === activeLabel}" @click.native="onNav(nv.label)">
-      <Col span="24">
+    <a-row v-for="nv,idx in navs" :key="`nv${idx}`" :class="{active: nv.label === activeLabel, animate__animated: nv.label === activeLabel, animate__pulse: nv.label === activeLabel}" @click.native="onNav(nv.label)">
+      <a-col span="24">
         <div style="text-align:center;">
-          <Icon :type="nv.icon" size="34" color="#fff"/>
+          <a-icon :type="nv.icon" size="34" theme="twoTone"/>
          </div>
-      </Col>
-    </Row>
+      </a-col>
+    </a-row>
   </div>
 </div>

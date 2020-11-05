@@ -45,15 +45,11 @@
   }
 </script>
 
-<style lang="scss">
-  #app {
-    /* display: none */
-    /* margin-top: 20px; */
-  }
+<style lang="less">
   #titlebar {
     width: 100%;
     min-width: 1000px;
-    height: 80px;
+    height: 70px;
     overflow: hidden;
     -webkit-app-region: drag;
     .ivu-card-body {

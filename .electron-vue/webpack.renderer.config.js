@@ -29,7 +29,9 @@ let rendererConfig = {
   externals: [
     ...Object.keys(dependencies || {}).filter(d => !whiteListedModules.includes(d))
   ],
+  // => 配置模块加载器LOADER
   module: {
+    // => 模块规则：使用加载器（默认从右向左执行，从下向上）
     rules: [
       {
         test: /\.(js|vue)$/,
@@ -41,33 +43,28 @@ let rendererConfig = {
             formatter: require('eslint-friendly-formatter')
           }
         }
-      },
-      {
+      }, {
         test: /\.scss$/,
         use: ['vue-style-loader', 'css-loader', 'sass-loader']
-      },
-      {
+      }, {
         test: /\.sass$/,
         use: ['vue-style-loader', 'css-loader', 'sass-loader?indentedSyntax']
-      },
-      {
-        test: /\.less$/,
-        use: [{
-          loader: "style-loader"
-        }, {
-          loader: "css-loader"
-        }, {
-          loader: "less-loader",
-          options: {
-            javascriptEnabled: true
+      }, {
+        test: /\.(css|less)$/,
+        use: [
+          "style-loader", // => 把CSS插入到HEAD中
+          "css-loader", // => 编译解析@import/URL()这种语法
+          // "postcss-loader", // => 设置前缀
+          {
+            loader: "less-loader",
+            options: {
+              lessOptions: {
+                javascriptEnabled: true
+              }
+            }
           }
-        }]
+        ]
       },
-      {
-        test: /\.css$/,
-        use: ['vue-style-loader', 'css-loader']
-      },
-      // {
       //   test: /\.html$/,
       //   use: 'vue-html-loader'
       // },
@@ -75,12 +72,10 @@ let rendererConfig = {
         test: /\.js$/,
         use: 'babel-loader',
         exclude: /node_modules/
-      },
-      {
+      }, {
         test: /\.node$/,
         use: 'node-loader'
-      },
-      {
+      }, {
         test: /\.vue$/,
         use: {
           loader: 'vue-loader',
@@ -93,26 +88,24 @@ let rendererConfig = {
             }
           }
         }
-      },
-      {
+      }, {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         use: {
           loader: 'url-loader',
-          query: {
+          options: {
             limit: 10000,
-            name: 'imgs/[name]--[folder].[ext]'
+            name: 'imgs/[name]--[folder].[ext]',
+            esModule: false
           }
         }
-      },
-      {
+      }, {
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
         loader: 'url-loader',
         options: {
           limit: 10000,
           name: 'media/[name]--[folder].[ext]'
         }
-      },
-      {
+      }, {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         use: {
           loader: 'url-loader',
@@ -130,10 +123,22 @@ let rendererConfig = {
   },
   plugins: [
     new VueLoaderPlugin(),
-    new MiniCssExtractPlugin({filename: 'styles.css'}),
+    new MiniCssExtractPlugin({filename: '[name].css'}),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: path.resolve(__dirname, '../src/index.ejs'),
+      templateParameters(compilation, assets, options) {
+        return {
+          compilation: compilation,
+          webpack: compilation.getStats().toJson(),
+          webpackConfig: compilation.options,
+          htmlWebpackPlugin: {
+            files: assets,
+            options: options
+          },
+          process,
+        };
+      },
       minify: {
         collapseWhitespace: true,
         removeAttributeQuotes: true,
@@ -144,7 +149,7 @@ let rendererConfig = {
         : false
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin()
+    // new webpack.NoEmitOnErrorsPlugin()
   ],
   output: {
     filename: '[name].js',

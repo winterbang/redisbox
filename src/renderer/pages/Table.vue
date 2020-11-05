@@ -3,20 +3,27 @@
 
     <Input v-model="searchText" class="form-control" type="text" placeholder="Search keys" style="width: 220px;margin: 0 0 10px 10px" />
 
-    <Table stripe :columns="columns" :data="filterKeys" size="small" highlight-row style="">
+    <Table stripe :columns="columns" :data="filterKeys" size="small" highlight-row
+      @on-select-all="onSelectAll"
+      @on-select-all-cancel="onSelectAllCancel"
+      @on-select="onSelect"
+      @on-select-cancel="onSelectCancel"
+      >
       <template slot-scope="{ row }" slot="name" >
         <strong :key="row.name">{{ row.name }}</strong>
       </template>
-      <template slot-scope="{ row, index }" slot="action">
+      <template slot-scope="{ row }" slot="action">
         <router-link :to="{name: 'Detail', params: {key: row.name}}">
           <Icon type="ios-create-outline" size="30"/>
         </router-link>
       </template>
     </Table>
+
     <div class="toolbar-box">
       <div class="info">
-        <strong>{{ dbsize }}</strong> keys in DB{{0}}; <strong>0</strong> key selected
+        <strong>{{ dbsize }}</strong> keys in DB{{0}}; <strong>{{selectCount}}</strong> key selected
       </div>
+
       <div class="action">
         <Tooltip content="add" placement="top">
           <Icon type="md-add" size="22" @click="modalOfAdd = true"/>
@@ -25,12 +32,11 @@
             title="新增"
             @on-ok="modalOfAddOk"
             @on-cancel="modalOfAddCancel">
-
             <Input v-model="newKey" placeholder="Enter the new key." style="width: 300px">
               <span slot="prepend">Key</span>
             </Input>
 
-            <Input v-model="newValue" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter the new value."></Input>
+            <Input v-model="newValue" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter the new value."/>
 
           </Modal>
         </Tooltip>
@@ -43,7 +49,7 @@
           <Icon type="md-download" size="22" />
         </Tooltip>
         <Divider type="vertical"/>
-        <Tooltip content="delete" placement="top-end">
+        <Tooltip content="delete" placement="top-end" @click.native="onDelete">
           <Icon type="md-trash" size="22" />
         </Tooltip>
         <Divider type="vertical"/>
@@ -80,9 +86,9 @@ export default {
         // }, {
         //   title: 'Type',
         //   key: 'type'
-        }, {
-          title: 'Value',
-          key: 'value'
+        // }, {
+        //   title: 'Value',
+        //   key: 'value'
         }, {
           title: 'Action',
           slot: 'action',
@@ -91,9 +97,11 @@ export default {
         }
       ],
       dbsize: 0,
+      curPage: 0,
       modalOfAdd: false,
       newKey: '',
-      newValue: ''
+      newValue: '',
+      selection: []
     }
   },
   computed: {
@@ -115,6 +123,9 @@ export default {
           newKeys[tmpKeys] = []
         }
       })
+    },
+    selectCount: function () {
+      return this.selection.length
     }
   },
   watch: {
@@ -152,10 +163,12 @@ export default {
           if (err) return console.log(err)
           this.dbsize = reply
         })
+        // client.scan(0, 'COUNT', '5', (err, reply) => {
+        //   if (err) return console.log(err)
+        //   console.log(reply)
+        //   this.keys = reply[1]
+        // })
       })
-    },
-    selectRow (key) {
-      this.focusKey = key
     },
     onRClick (key) {
       this.focusKey = key
@@ -183,6 +196,54 @@ export default {
     },
     onRefresh () {
       this.fetchData()
+    },
+    onDelete () {
+      if (this.selection.length > 0) {
+        let keys = this.selection.map(v => {
+          return v.name
+        })
+        let client = this.redisClient({...this.curConnection, db: this.dbIndex})
+        //  multi
+        // let multi = client.multi()
+        // this.selection.forEach((v, i) => {
+        //   console.log(v.name)
+        //   multi.del(v.name, (err, reply) => {
+        //     if (err) {
+        //       return console.log(err)
+        //     }
+        //   })
+        // })
+        // multi.exec((err, replies) => {
+        //   if (err) console.log(err)
+        //   console.log(replies) // 102, 3
+        //   // client.quit()
+        // })
+
+        // batch
+        let batch = client.batch()
+        batch.del(...keys, (err, reply) => {
+          if (err) console.log(err)
+        })
+        batch.exec((err, reply) => {
+          if (err) console.log(err)
+        })
+      }
+      this.fetchData()
+    },
+    changePage (page) {
+      console.log(page)
+    },
+    onSelectAll () {
+      this.selection = this.filterKeys.concat() // 深拷贝
+    },
+    onSelectAllCancel () {
+      this.selection = []
+    },
+    onSelect (selection, row) {
+      this.selection = selection
+    },
+    onSelectCancel (selection, row) {
+      this.selection = selection
     }
   }
 }

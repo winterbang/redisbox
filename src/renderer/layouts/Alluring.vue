@@ -1,22 +1,22 @@
 <template>
-   <div class="" style="height: calc(100% - 80px);">
-     <Split v-model="split" min="560">
+   <div style="height: calc(100% - 70px);">
+     <!-- <Split v-model="split" min="560"> -->
         <div slot="left" style="height: 100%;">
-          <Layout style="height: 100%;">
-            <Sider hide-trigger width="50">
+          <a-layout style="height: 100%;">
+            <a-layout-sider hide-trigger width="50">
               <nav-sider />
-            </Sider>
-            <Layout>
+            </a-layout-sider>
+            <a-layout style="min-width: 780px;">
               <transition  mode="out-in" name="fade">
                 <router-view></router-view>
               </transition>
-            </Layout>
-          </Layout>
+            </a-layout>
+          </a-layout>
         </div>
-        <div slot="right" style="height: 100%;">
-          <!-- <console/> -->
-        </div>
-     </Split>
+        <!-- <div slot="right" style="height: 100%;">
+          <console/>
+        </div> -->
+     <!-- </Split> -->
    </div>
 </template>
 
@@ -49,12 +49,15 @@ export default {
     this.$bus.$on('triggerConsole', (event) => {
       this.split = this.split === 1 ? 0.7 : 1
     })
-  },
-  beforeRouteUpdate (to, from, next) {
-    console.log(to)
-    console.log('query=========')
-    next()
   }
+  // beforeEnter (to, from, next) {
+
+  // },
+  // beforeRouteUpdate (to, from, next) {
+  //   console.log(to)
+  //   console.log('query=========')
+  //   next()
+  // }
 }
 </script>
 

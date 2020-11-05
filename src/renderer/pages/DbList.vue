@@ -6,7 +6,9 @@
           <Icon type="ios-list-box-outline" size="24"/>
           <!-- <Icon type="md-list-box" size="24"/> -->
           DB{{i-1}}
-          <Badge :count="sizes[i-1] || 0" type="normal" style="float: right;"></Badge>
+          <template v-if="dbsInfo['db' + (i - 1)]">
+            <Badge :count="dbsInfo['db' + (i - 1)]['keys'] || 0 | toInt " type="normal" style="float: right;" if></Badge>
+          </template>
         </Card>
       </Col>
     </Row>
@@ -25,7 +27,8 @@ export default {
   },
   data () {
     return {
-      sizes: []
+      // sizes: Array.from('0' * 16, x => 0 * x),
+      dbsInfo: {}
     }
   },
   methods: {
@@ -34,6 +37,28 @@ export default {
       console.log(this.curConnection)
       this.$router.push({name: 'Keys', params: { id: i }})
     }
+  },
+  beforeMount () {
+    let client = this.redisClient(this.curConnection)
+    client.info('keyspace', (err, reply) => {
+      if (err) console.log(err)
+      this.connInfo = reply
+      let replyArray = reply.split('\n')
+      let dbsInfo = {}
+      replyArray.forEach(v => {
+        if (v.includes('db')) {
+          let dbInfo = v.split(':')
+          let infos = dbInfo[1].split(',')
+          dbsInfo[dbInfo[0]] = {}
+          infos.forEach(v => {
+            let info = v.split('=')
+            dbsInfo[dbInfo[0]][info[0]] = info[1]
+          })
+        }
+      })
+      this.dbsInfo = dbsInfo
+    })
+    // this.modalOfConnInfo = true
   },
   created () {
     // let client = this.redisClient(this.curConnection)
@@ -47,33 +72,38 @@ export default {
     //   console.log(reply)
     // })
     // FIXME client对象生成的有点多，占内存
-    let promises = []
-    for (let i = 0; i <= 15; i++) {
-      let p = new Promise((resolve) => {
-        let client = this.redisClient({...this.curConnection, db: i})
-        client.select(i, async () => {
-          await client.dbsize((err, reply) => {
-            if (err) console.log(err)
-            this.$set(this.sizes, i, reply)
-          })
-          resolve()
-        })
-      })
-      promises.push(p)
+    // let promises = []
+    // for (let i = 0; i <= 15; i++) {
+    //   let p = new Promise((resolve) => {
+    //     let client = this.redisClient({...this.curConnection, db: i})
+    //     client.select(i, async () => {
+    //       await client.dbsize((err, reply) => {
+    //         if (err) console.log(err)
+    //         this.$set(this.sizes, i, reply)
+    //       })
+    //       resolve()
+    //     })
+    //   })
+    //   promises.push(p)
 
-      // let client = this.redisClient({...this.curConnection, db: i})
-      // client.select(i, () => {
-      //   client.dbsize((err, reply) => {
-      //     if (err) console.log(err)
-      //     this.$set(this.sizes, i, reply)
-      //   })
-      // })
+    // let client = this.redisClient({...this.curConnection, db: i})
+    // client.select(i, () => {
+    //   client.dbsize((err, reply) => {
+    //     if (err) console.log(err)
+    //     this.$set(this.sizes, i, reply)
+    //   })
+    // })
+    // }
+    // Promise.all(promises).then((allData) => {
+    //   console.log(allData)
+    // }).catch((err) => {
+    //   console.log(err)
+    // })
+  },
+  filters: {
+    toInt: function (value) {
+      return parseInt(value)
     }
-    Promise.all(promises).then((allData) => {
-      console.log(allData)
-    }).catch((err) => {
-      console.log(err)
-    })
   }
 }
 </script>

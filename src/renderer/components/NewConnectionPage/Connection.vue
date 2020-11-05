@@ -1,41 +1,41 @@
 <template>
-  <Form ref="formRef" :model="formData" :rules="ruleInline" style="width: 57%;margin: 0 auto;">
-    <FormItem prop="name">
-      <Input type="text" v-model="formData.name" placeholder="Connection Name">
+  <a-form ref="formRef" :form="form" :model="formData" :rules="ruleInline" style="width: 57%;margin: 0 auto;">
+    <a-form-item prop="name">
+      <a-input type="text" v-model="formData.name" placeholder="Connection Name">
         <span slot="prepend">Name</span>
-      </Input>
-    </FormItem>
-    <FormItem prop="host">
-      <Input type="text" v-model="formData.host" placeholder="Redis-server host">
+      </a-input>
+    </a-form-item>
+    <a-form-item prop="host">
+      <a-input type="text" v-model="formData.host" placeholder="Redis-server host">
         <span slot="prepend">Host</span>
-      </Input>
-    </FormItem>
-    <FormItem prop="port">
-      <Input type="text" v-model="formData.port" placeholder="Redis-server port (6379)" number>
+      </a-input>
+    </a-form-item>
+    <a-form-item prop="port">
+      <a-input type="text" v-model="formData.port" placeholder="Redis-server port (6379)" number>
         <span slot="prepend">Port</span>
-      </Input>
-    </FormItem>
-    <FormItem prop="auth">
-      <Input type="password" v-model="formData.auth" placeholder="Redis-server authentication password">
+      </a-input>
+    </a-form-item>
+    <a-form-item prop="auth">
+      <a-input type="password" v-model="formData.auth" placeholder="Redis-server authentication password">
         <span slot="prepend">Auth</span>
-      </Input>
-    </FormItem>
-    <FormItem prop="_id" hidden>
-      <Input type="password" v-model="formData._id" placeholder="id">
-      </Input>
-    </FormItem>
-    <!-- <FormItem prop="color">
+      </a-input>
+    </a-form-item>
+    <a-form-item prop="_id" hidden>
+      <a-input type="password" v-model="formData._id" placeholder="id">
+      </a-input>
+    </a-form-item>
+    <!-- <a-form-item prop="color">
       <Button type="dashed" size="small">
         <Icon type="ios-close" size="20"/>
       </Button>
       <Button type="dashed" shape="circle" icon="ios-bookmark">
       </Button>
       <Button type="info" shape="circle" icon="ios-bookmark"> </Button>
-    </FormItem> -->
-    <FormItem prop="color">
-      <Tag type="dot" :color="cr" v-for="cr in colors" @click.native="pickColor(cr)" :class="{picked: cr === formData.color}"></Tag>
-    </FormItem>
-  </Form>
+    </a-form-item> -->
+    <a-form-item prop="color">
+      <a-tag type="dot" :color="cr" v-for="cr in colors" :key="cr" @click.native="pickColor(cr)" :class="{picked: cr === formData.color}"></a-tag>
+    </a-form-item>
+  </a-form>
   <!-- <form>
     <div class="form-group">
       <label>Name</label>
@@ -89,6 +89,9 @@ export default {
       this.formData.color = color
     }
   },
+  beforeCreate() {
+    this.form = this.$form.createForm(this);
+  },
   watch: {
     // 如果想在props的更新后更新组件 必须监听props
     initForm (value, old) {
@@ -98,15 +101,19 @@ export default {
 }
 </script>
 
-<style lang="css">
-.ivu-input-group-prepend span {
-  display: inline-block;
-  width: 30px;
+<style lang="less" scoped>
+.ant-form-item-children {
+  span {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+    padding: 2px;
+    background-clip: content-box;
+  }
+  .picked {
+    border: 1px dashed #777 !important;
+  }
 }
-.ivu-tag-dot-inner {
-  margin-right: 0;
-}
-.picked {
-  border: 1px dashed #777 !important;
-}
+
 </style>

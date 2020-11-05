@@ -2,52 +2,38 @@ import Vue from 'vue'
 import axios from 'axios'
 
 // import './assets/photon/css/photon.css'
-import './assets/reset.css'
-// import ElementUI from 'element-ui'
-// import 'element-ui/lib/theme-chalk/index.css'
-import iView from 'iview'
-import animate from 'animate.css/animate.min.css'
+import './assets/reset.less'
+// import iView from 'iview'
+import Antd from 'ant-design-vue'
+import animate from 'animate.css/animate.css'
 import '@/themes/index.less'
-import './assets/redisbox.scss'
+import './assets/redisbox.less'
 import db from './datastore'
 import App from './App'
 import router from './router'
 import store from '@/store'
 import redisClient from '@/redisClient'
-import Ads from 'vue-google-adsense'
+// import Ads from 'vue-google-adsense'
+
+console.log(animate)
 
 Vue.use(require('vue-script2'))
-Vue.use(Ads.Adsense)
-Vue.use(Ads.InArticleAdsense)
-Vue.use(Ads.InFeedAdsense)
-Vue.prototype.$db = db
-
-let doc = {
-  name: 'localhost',
-  host: 'localhost',
-  port: 6379,
-  auth: ''
-}
-db.find({ name: 'localhost' }, function (err, docs) {
-  if (docs.length === 0) {
-    db.insert(doc, function (err, newDoc) {
-      console.log(err)
-      console.log(newDoc)
-    })
-  }
-  console.log(err)
-})
+// Vue.use(Ads.Adsense)
+// Vue.use(Ads.InArticleAdsense)
+// Vue.use(Ads.InFeedAdsense)
+Vue.use(db)
 
 // Vue.use(ElementUI)
-Vue.use(iView)
+// Vue.use(iView)
+Vue.use(Antd)
 Vue.use(animate)
 Vue.use(redisClient)
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.http = Vue.prototype.$http = axios
-let EventBus = new Vue()
+const EventBus = new Vue()
 Vue.prototype.$bus = EventBus
-Vue.config.productionTip = false // 当前开发版本的提示
+Vue.config.productionTip = true // 当前开发版本的提示
 
 /* eslint-disable no-new */
 new Vue({

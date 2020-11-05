@@ -60,7 +60,10 @@ export default {
     },
     onExport () {
       let content = JSON.stringify(this.connections, undefined, 2)
-      dialog.showSaveDialog((fileName) => {
+      console.log(content)
+      dialog.showSaveDialog((fileName, err) => {
+        console.log(err)
+        console.log(fileName, '===========')
         if (fileName === undefined) {
           console.log("You didn't save the file")
           return

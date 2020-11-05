@@ -127,7 +127,7 @@ function startElectron () {
   }
 
   electronProcess = spawn(electron, args)
-  
+
   electronProcess.stdout.on('data', data => {
     electronLog(data, 'blue')
   })
@@ -161,7 +161,7 @@ function greeting () {
   const cols = process.stdout.columns
   let text = ''
 
-  if (cols > 104) text = 'electron-vue'
+  if (cols > 104) text = 'REDIS BOX'
   else if (cols > 76) text = 'electron-|vue'
   else text = false
 
@@ -171,7 +171,7 @@ function greeting () {
       font: 'simple3d',
       space: false
     })
-  } else console.log(chalk.yellow.bold('\n  electron-vue'))
+  } else console.log(chalk.yellow.bold('\n  redis box'))
   console.log(chalk.blue('  getting ready...') + '\n')
 }
 

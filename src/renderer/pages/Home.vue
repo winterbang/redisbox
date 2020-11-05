@@ -1,30 +1,31 @@
 <template>
    <div class="box-home">
-     <span class="animated bounce" style="font-size: 80px;color: #19be6b;font-weight: 800;text-shadow: 5px 5px 5px #ccc">Redisbox</span>
+     <span class="animate__animated animate__bounce text-logo">Redisbox</span>
      <!-- <div>
        广告
      </div> -->
-     <Row :gutter="16" style="position: absolute; bottom: 20px;">
-        <Col span="24" v-for="tool in buttons" :key="tool.label" @click.native="onButton(tool.label)">
-          <Card bordered shadow :style="{background: tool.color}">
+     <a-row :gutter="16" style="position: absolute; bottom: 20px;">
+        <a-col span="24" v-for="tool in buttons" :key="tool.label" @click.native="onButton(tool.label)">
+          <a-button type="primary" shape="round" :icon="tool.icon" size="large" />
+          <!-- <a-card bordered shadow :style="{background: tool.color}">
             <div style="text-align:center;color: #fff;" >
-              <Icon :type="tool.icon" size="40"/>
-              <!-- <h5>{{ tool.label }}</h5> -->
+              <a-icon :type="tool.icon" size="40"/>
+              <h5>{{ tool.label }}</h5>
             </div>
-          </Card>
-        </Col>
-     </Row>
+          </a-card> -->
+        </a-col>
+     </a-row>
 
-     <Modal v-model="donateVisible" width="660" footer-hide :mask-closable="false">
+     <a-modal v-model="donateVisible" :footer="null" :mask-closable="false">
       <p slot="header" style="color:#f60;text-align:center">
-        <Icon type="ios-card-outline" size="26"></Icon>
+        <a-icon type="credit-card" size="26" />
         <span>Donate</span>
       </p>
       <div style="display:flex;justify-content: space-around;align-items: center">
         <img src="@/assets/donate_alipay.jpeg" width="200" alt="">
         <img src="@/assets/donate_wechat.jpeg" width="200" alt="">
       </div>
-    </Modal>
+    </a-modal>
    </div>
 </template>
 
@@ -46,7 +47,7 @@ export default {
       buttons: [
         {
           label: 'donate',
-          icon: 'ios-card-outline',
+          icon: 'credit-card',
           color: '#ff9900'
         // }, {
         //   label: 'share',
@@ -75,12 +76,21 @@ export default {
 }
 </script>
 
-<style lang="css">
- .box-home {
-   height: 80%;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   flex-direction: column;
- }
+<style lang="less">
+  .box-home {
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    .text-logo {
+      font-size: 80px;
+      color: #19be6b;
+      font-weight: 800;
+      // background-image: linear-gradient(45deg, #388a61, #19be6b);
+      // -webkit-background-clip: text;
+      // -webkit-text-fill-color: transparent;
+      text-shadow: 5px 5px 5px #ccc;
+    }
+  }
 </style>
