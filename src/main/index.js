@@ -84,7 +84,7 @@ ipcMain.on('openConsole', function (e, data) {
   win.on('close', function () { win = null })
   console.log(modalPath)
   win.loadURL(modalPath)
-  event.returnValue = 'pong'
+  e.returnValue = 'pong'
 })
 
 /**

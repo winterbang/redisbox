@@ -8,6 +8,7 @@ const { spawn } = require('child_process')
 const webpack = require('webpack')
 const WebpackDevServer = require('webpack-dev-server')
 const webpackHotMiddleware = require('webpack-hot-middleware')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const mainConfig = require('./webpack.main.config')
 const rendererConfig = require('./webpack.renderer.config')
@@ -49,10 +50,18 @@ function startRenderer () {
     })
 
     compiler.hooks.compilation.tap('compilation', compilation => {
-      compilation.hooks.htmlWebpackPluginAfterEmit.tapAsync('html-webpack-plugin-after-emit', (data, cb) => {
-        hotMiddleware.publish({ action: 'reload' })
-        cb()
-      })
+      // compilation.hooks.htmlWebpackPluginAfterEmit.tapAsync('html-webpack-plugin-after-emit', (data, cb) => {
+      //   hotMiddleware.publish({ action: 'reload' })
+      //   cb()
+      // })
+
+      HtmlWebpackPlugin.getHooks(compilation).afterEmit.tapAsync(
+        'MyPlugin', // <-- Set a meaningful name here for stacktraces
+        (data, cb) => {
+          hotMiddleware.publish({ action: 'reload' })
+          cb()
+        }
+      )
     })
 
     compiler.hooks.done.tap('done', stats => {

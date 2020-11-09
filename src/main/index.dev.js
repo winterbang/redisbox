@@ -12,9 +12,18 @@ require('electron-debug')({ showDevTools: true })
 
 // Install `vue-devtools`
 // import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
-require('electron').app.on('ready', () => {
+require('electron').app.on('ready', async () => {
+  // if (process.env.NODE_ENV !== 'production') {
+  //   require('vue-devtools').install()
+  // }
+
   if (process.env.NODE_ENV !== 'production') {
-    require('vue-devtools').install()
+    // Install Vue Devtools
+    try {
+      await installExtension(VUEJS_DEVTOOLS);
+    } catch (e) {
+      console.error("Vue Devtools failed to install:", e.toString());
+    }
   }
 
   // installExtension(VUEJS_DEVTOOLS)
