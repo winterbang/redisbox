@@ -1,25 +1,25 @@
 <template>
-  <div style="height: 100%;overflow-y: scroll;padding: 0 20px">
+  <div style="height: 100%;padding: 0 20px">
     <template v-if="connections.length == 0">
       <div style="position: fixed;top: 52px;left: 51px">
-        <Tooltip content="服务器面板是空的，快新建一个吧！" placement="bottom-start" :always="true"></Tooltip>
+        <a-tooltip class="ant-tooltip-open" title="服务器面板是空的，快新建一个吧！" placement="bottomLeft" :defaultVisible="true"></a-tooltip>
       </div>
     </template>
-    <Row v-else :gutter="16" style="background:#eee;border-radius: 8px;">
+    <a-row v-else :gutter="16" style="background:#eee;border-radius: 8px;">
       <transition-group name="list-complete" tag="div">
-        <Col span="6" v-for="connection in connections" :key="connection._id" class="list-complete-item">
-          <Card :bordered="false" @click.native="onConnection(idx)" :style="{background: connection.color}">
-            <Icon type="ios-close" size="16" @click.stop="onDeleteConnection(connection)" style="position: absolute; top: 0;left: 0"></Icon>
+        <a-col span="6" v-for="(connection, idx) in connections" :key="connection._id" class="list-complete-item">
+          <a-card :bordered="false" @click.native="onConnection(idx)" :style="{background: connection.color}">
+            <a-icon type="delete" size="16" @click.stop="onDeleteConnection(connection)" style="position: absolute; top: 5px;left: 5px"></a-icon>
             <p slot="title" contenteditable="true">
               {{ connection.name || '未命名' }}
             </p>
             <div slot="extra" @click.stop="onSetting(idx)" >
-              <Icon type="ios-construct-outline" size="20"> </Icon>
+              <a-icon type="edit" size="20"> </a-icon>
             </div>
             <p>Host: {{connection.host}}</p>
             <p>Port: {{connection.port}}</p>
-          </Card>
-        </Col>
+          </a-card>
+        </a-col>
       </transition-group>
        <!-- <Col span="6">
          <Card :bordered="false" style="display:flex;justify-content: center;align-items: center;text-align:center;height: 125px;">
@@ -36,14 +36,14 @@
          </Card>
        </Col> -->
 
-      <Modal v-model="settingFormVisible" width="660" footer-hide :mask-closable="false">
+      <a-modal v-model="settingFormVisible" width="660" footer-hide :mask-closable="false">
         <p slot="header" style="color:#f60;text-align:center">
-          <Icon type="ios-cloud-circle-outline" size="22"/>
+          <a-icon type="ios-cloud-circle-outline" size="22"/>
           <!-- <span>{{ connections[connectionIndex].name}}</span> -->
         </p>
         <div style="display:flex;justify-content: space-around;align-items: center">
         </div>
-      </Modal>
+      </a-modal>
       <!-- <Modal v-model="deleteConfirmModel" width="360">
         <p slot="header" style="color:#f60;text-align:center">
             <Icon type="ios-information-circle"></Icon>
@@ -57,7 +57,7 @@
             <Button type="error" size="large" long :loading="modal_loading" @click="del">Delete</Button>
         </div>
       </Modal> -->
-    </Row>
+    </a-row>
   </div>
 </template>
 
@@ -85,6 +85,7 @@ export default {
       let connection = this.connections[index]
       let client = this.redisClient(connection)
       client.on('error', function (err) {
+        console.log('connetion error', '=======================')
         dialog.showMessageBox({type: 'error', message: err.message})
         client.quit()
       })
@@ -117,6 +118,7 @@ export default {
 
 <style lang="css" scoped>
 .list-complete-item {
+  padding: 8px;
   transition: all 1s;
 }
 .list-complete-enter, .list-complete-leave-to {

@@ -82,10 +82,10 @@ export default {
         // 因为formData是个对象，所以必须复制改对象后传参数，不然vuex中的state会一直跟着变化
         let payload = Object.assign({}, formData)
         this.updateConnection(payload)
-        this.$Message.success('update successfully!')
+        this.$message.success('update successfully!')
       } else {
         this.addNewConnection(formData)
-        this.$Message.success('save successfully!')
+        this.$message.success('save successfully!')
       }
       this.onCancel()
       //

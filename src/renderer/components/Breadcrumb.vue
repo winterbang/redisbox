@@ -1,30 +1,30 @@
 <template>
   <div class="breadcrumb-wrap">
-    <Breadcrumb separator=">" style="padding: 10px 10px;">
-      <BreadcrumbItem :to="{ name: 'Conns' }">conns</BreadcrumbItem>
-      <BreadcrumbItem :to="{ name: 'DbList', params: {id: curConnection._id } }">
-        {{curConnectionName}} <Icon type="md-information-circle" @click.stop="onConnInfo"/>
-      </BreadcrumbItem>
-      <BreadcrumbItem>
+    <a-breadcrumb separator=">" style="padding: 10px 10px;">
+      <a-breadcrumbItem :to="{ name: 'Conns' }">conns</a-breadcrumbItem>
+      <a-breadcrumbItem :to="{ name: 'DbList', params: {id: curConnection._id } }">
+        {{curConnectionName}} <a-icon type="info-circle" @click.stop="onConnInfo"/>
+      </a-breadcrumbItem>
+      <a-breadcrumbItem>
         <select class="form-control" style="width: 80px;" v-model="dbIndex" @change="toDb" >
           <option v-for="i in 16" :value="i-1" :key="i" >DB{{i-1}}</option>
         </select>
-      </BreadcrumbItem>
-      <BreadcrumbItem v-if="dbIndex != null" :to="{ name: 'Keys', params: {id: dbIndex} }">
+      </a-breadcrumbItem>
+      <a-breadcrumbItem v-if="dbIndex != null" :to="{ name: 'Keys', params: {id: dbIndex} }">
         All
-      </BreadcrumbItem>
-      <BreadcrumbItem :to="{ name: 'Keys', params: {id: dbIndex}, query: {text: keys.slice(0, keys.indexOf(key)+1)}}" v-for="key in keys" :key="key">
+      </a-breadcrumbItem>
+      <a-breadcrumbItem :to="{ name: 'Keys', params: {id: dbIndex}, query: {text: keys.slice(0, keys.indexOf(key)+1)}}" v-for="key in keys" :key="key">
         {{ key }}
-      </BreadcrumbItem>
-    </Breadcrumb>
-    <Modal
+      </a-breadcrumbItem>
+    </a-breadcrumb>
+    <a-modal
       :title="curConnectionName"
       v-model="modalOfConnInfo"
       scrollable
       footer-hide
       :styles="{top: '20px'}">
       <pre>{{ connInfo }}</pre>
-    </Modal>
+    </a-modal>
   </div>
 </template>
 
@@ -93,7 +93,7 @@ export default {
   // }
 }
 </script>
-<style lang="css" scoped>
+<style scoped>
   .breadcrumb-wrap {
     position: fixed;
     left: 50px;
