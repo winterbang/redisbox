@@ -1,11 +1,11 @@
 <template>
-  <div style="height: 100%;padding: 0 20px">
+  <div style="height: 100%;">
     <template v-if="connections.length == 0">
       <div style="position: fixed;top: 52px;left: 51px">
         <a-tooltip class="ant-tooltip-open" title="服务器面板是空的，快新建一个吧！" placement="bottomLeft" :defaultVisible="true"></a-tooltip>
       </div>
     </template>
-    <a-row v-else :gutter="16" style="background:#eee;border-radius: 8px;">
+    <a-row v-else :gutter="16" style="background:#eee;border-radius: 8px;margin:0">
       <transition-group name="list-complete" tag="div">
         <a-col span="6" v-for="(connection, idx) in connections" :key="connection._id" class="list-complete-item">
           <a-card :bordered="false" @click.native="onConnection(idx)" :style="{background: connection.color}">
@@ -84,21 +84,22 @@ export default {
     onConnection (index) {
       let connection = this.connections[index]
       let client = this.redisClient(connection)
-      client.on('error', function (err) {
-        console.log('connetion error', '=======================')
-        dialog.showMessageBox({type: 'error', message: err.message})
-        client.quit()
-      })
-      // let self = this
-      client.on('connect', () => {
+      // client.on('error', function (err) {
+      //   console.log('connetion error', '=======================')
+      //   dialog.showMessageBox({type: 'error', message: err.message})
+      //   client.quit()
+      // })
+      // // let self = this
+      client.on('connect', (result) => {
+        console.log(result, 'result====================')
         this.setCurConnectionName(connection.name)
-        // this.$set(this.connections, index, connection)
-        console.log('dblist')
+        this.$set(this.connections, index, connection)
+        // console.log('dblist')
         this.$router.push({name: 'DbList', params: { id: connection._id }})
       })
 
       // navigate if client is already connected
-      if (client.connected) {
+      if (client.ready) {
         this.setCurConnectionName(connection.name)
         console.log('connected')
         this.$router.push({name: 'DbList', params: { id: connection._id }})

@@ -1,7 +1,7 @@
 <template>
-  <div style="padding: 10px 0 160px">
+  <div style="padding: 10px 0 40px">
     <breadcrumb v-show="breadcrumbVisible"/>
-    <div class="wrap">
+    <div class="wrap" :style="{marginTop: breadcrumbVisible ? '55px' : 0}">
       <transition  mode="out-in" name="fade">
         <router-view :key="`main-${$route.fullPath}`"></router-view>
       </transition>
@@ -72,8 +72,8 @@ export default {
 
 <style lang="css" scoped>
   .wrap {
-    margin-top: 55px;
-    margin-right: 18px; /* 修复隐藏滚动条带来的右偏移问题 */
+    margin-right: 10px; /* 修复隐藏滚动条带来的右偏移问题 */
+    margin-left: 10px;
   }
 
 </style>

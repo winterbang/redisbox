@@ -1,17 +1,17 @@
 <template>
   <div class="container">
-    <Row :gutter="12">
-      <Col :span="6" v-for="i in 16" @click.native="onDbn(i - 1)" :key="i" style="max-height: 80px">
-        <Card :bordered="false" shadow style="background: #409EFF;cursor: pointer; color: #fff">
-          <Icon type="ios-list-box-outline" size="24"/>
+    <a-row :gutter="12">
+      <a-col :span="6" v-for="i in 16" @click.native="onDbn(i - 1)" :key="i" style="max-height: 80px;padding: 8px">
+        <a-card :bordered="false" shadow style="background: #409EFF;cursor: pointer; color: #fff;">
+          <a-icon type="ios-list-box-outline" size="24"/>
           <!-- <Icon type="md-list-box" size="24"/> -->
           DB{{i-1}}
           <template v-if="dbsInfo['db' + (i - 1)]">
-            <Badge :count="dbsInfo['db' + (i - 1)]['keys'] || 0 | toInt " type="normal" style="float: right;" if></Badge>
+            <a-badge :count="dbsInfo['db' + (i - 1)]['keys'] || 0 | toInt " type="normal" style="float: right;" ></a-badge>
           </template>
-        </Card>
-      </Col>
-    </Row>
+        </a-card>
+      </a-col>
+    </a-row>
   </div>
 </template>
 
@@ -109,9 +109,9 @@ export default {
 </script>
 
 <style lang="css" scoped>
-  .container {
+  /* .container {
     padding: 0 10px;
-  }
+  } */
   .el-card {
     margin: 10px 0;
   }

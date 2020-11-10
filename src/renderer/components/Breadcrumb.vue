@@ -1,21 +1,21 @@
 <template>
   <div class="breadcrumb-wrap">
     <a-breadcrumb separator=">" style="padding: 10px 10px;">
-      <a-breadcrumbItem :to="{ name: 'Conns' }">conns</a-breadcrumbItem>
-      <a-breadcrumbItem :to="{ name: 'DbList', params: {id: curConnection._id } }">
+      <a-breadcrumb-item :to="{ name: 'Conns' }">conns</a-breadcrumb-item>
+      <a-breadcrumb-item :to="{ name: 'DbList', params: {id: curConnection._id } }">
         {{curConnectionName}} <a-icon type="info-circle" @click.stop="onConnInfo"/>
-      </a-breadcrumbItem>
-      <a-breadcrumbItem>
-        <select class="form-control" style="width: 80px;" v-model="dbIndex" @change="toDb" >
-          <option v-for="i in 16" :value="i-1" :key="i" >DB{{i-1}}</option>
-        </select>
-      </a-breadcrumbItem>
-      <a-breadcrumbItem v-if="dbIndex != null" :to="{ name: 'Keys', params: {id: dbIndex} }">
+      </a-breadcrumb-item>
+      <a-breadcrumb-item>
+        <a-select class="form-control" style="width: 80px;" v-model="dbIndex" @change="toDb" >
+          <a-select-option v-for="i in 16" :value="i-1" :key="i" >DB{{i-1}}</a-select-option>
+        </a-select>
+      </a-breadcrumb-item>
+      <a-breadcrumb-item v-if="dbIndex != null" :to="{ name: 'Keys', params: {id: dbIndex} }">
         All
-      </a-breadcrumbItem>
-      <a-breadcrumbItem :to="{ name: 'Keys', params: {id: dbIndex}, query: {text: keys.slice(0, keys.indexOf(key)+1)}}" v-for="key in keys" :key="key">
+      </a-breadcrumb-item>
+      <a-breadcrumb-item :to="{ name: 'Keys', params: {id: dbIndex}, query: {text: keys.slice(0, keys.indexOf(key)+1)}}" v-for="key in keys" :key="key">
         {{ key }}
-      </a-breadcrumbItem>
+      </a-breadcrumb-item>
     </a-breadcrumb>
     <a-modal
       :title="curConnectionName"
@@ -70,8 +70,12 @@ export default {
     ...mapGetters(['curConnection'])
   },
   watch: {
-    $route (to, from) {
-      this.initDbIndex(to)
+    $route: {
+      handler (to, from) {
+        console.log(to, '==============to ==============')
+        this.initDbIndex(to)
+      },
+    　immediate: true 
     }
     // '$route.params.id': function (id) {
     //
@@ -96,11 +100,12 @@ export default {
 <style scoped>
   .breadcrumb-wrap {
     position: fixed;
-    left: 50px;
-    right: 0;
+    left: 60px;
+    right: 10px;
     top: 80px;
     z-index: 99;
     background: snow;
     box-shadow: 1px 1px 3px #ddd;
+    border-radius: 3px;
   }
 </style>

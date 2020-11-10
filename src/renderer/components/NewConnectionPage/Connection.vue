@@ -16,7 +16,7 @@
       </a-input>
     </a-form-item>
     <a-form-item prop="auth">
-      <a-input type="password" v-model="formData.auth" placeholder="Redis-server authentication password">
+      <a-input type="password" v-model="formData.password" placeholder="Redis-server authentication password">
         <span slot="prepend">Auth</span>
       </a-input>
     </a-form-item>

@@ -1,23 +1,23 @@
 <template>
-  <div @click="focusKey = ''" style="position: relative;">
+  <div @click="focusKey = ''" style="position: relative;padding-top:10px">
 
-    <Input v-model="searchText" class="form-control" type="text" placeholder="Search keys" style="width: 220px;margin: 0 0 10px 10px" />
+    <a-input v-model="searchText" class="form-control" type="text" placeholder="Search keys" style="width: 220px;margin-bottom: 10px;" />
 
-    <Table stripe :columns="columns" :data="filterKeys" size="small" highlight-row
+    <a-table stripe :columns="columns" :data-source="filterKeys" size="small" :row-selection="rowSelection" rowKey="name"
       @on-select-all="onSelectAll"
       @on-select-all-cancel="onSelectAllCancel"
       @on-select="onSelect"
       @on-select-cancel="onSelectCancel"
       >
-      <template slot-scope="{ row }" slot="name" >
-        <strong :key="row.name">{{ row.name }}</strong>
+      <template slot-scope="text" slot="name" >
+        <strong :key="text">{{ text }}</strong>
       </template>
-      <template slot-scope="{ row }" slot="action">
+      <template slot-scope="text, row" slot="action">
         <router-link :to="{name: 'Detail', params: {key: row.name}}">
-          <Icon type="ios-create-outline" size="30"/>
+          <a-icon type="file-text" :style="{ fontSize: '16px', color: '#08c' }" />
         </router-link>
       </template>
-    </Table>
+    </a-table>
 
     <div class="toolbar-box">
       <div class="info">
@@ -25,39 +25,38 @@
       </div>
 
       <div class="action">
-        <Tooltip content="add" placement="top">
-          <Icon type="md-add" size="22" @click="modalOfAdd = true"/>
-          <Modal
+        <a-tooltip title="add" placement="top">
+          <a-icon type="plus-circle" size="22" @click="modalOfAdd = true"/>
+          <a-modal
             v-model="modalOfAdd"
             title="新增"
-            @on-ok="modalOfAddOk"
-            @on-cancel="modalOfAddCancel">
-            <Input v-model="newKey" placeholder="Enter the new key." style="width: 300px">
+            @ok="modalOfAddOk"
+            @cancel="modalOfAddCancel">
+            <a-input v-model="newKey" placeholder="Enter the new key." style="width: 300px;margin-bottom: 10px">
               <span slot="prepend">Key</span>
-            </Input>
+            </a-input>
 
-            <Input v-model="newValue" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter the new value."/>
+            <a-textarea v-model="newValue" type="textarea" :auto-size="{minRows: 2,maxRows: 5}" placeholder="Enter the new value."/>
 
-          </Modal>
-        </Tooltip>
-        <Divider type="vertical"/>
-        <Tooltip content="refresh" placement="top">
-          <Icon type="md-refresh" size="22" title="refresh" @click="onRefresh"/>
-        </Tooltip>
-        <Divider type="vertical"/>
-        <Tooltip content="download" placement="top-end">
-          <Icon type="md-download" size="22" />
-        </Tooltip>
-        <Divider type="vertical"/>
-        <Tooltip content="delete" placement="top-end" @click.native="onDelete">
-          <Icon type="md-trash" size="22" />
-        </Tooltip>
-        <Divider type="vertical"/>
-        <Tooltip content="clear" placement="top-end">
-          <Icon type="md-cube" size="22" />
-        </Tooltip>
+          </a-modal>
+        </a-tooltip>
+        <a-divider type="vertical"/>
+        <a-tooltip title="reload" placement="top">
+          <a-icon type="cloud-sync" size="22" title="reload" @click="onRefresh"/>
+        </a-tooltip>
+        <a-divider type="vertical"/>
+        <a-tooltip title="download" placement="topRight">
+          <a-icon type="cloud-download" size="22" />
+        </a-tooltip>
+        <a-divider type="vertical"/>
+        <a-tooltip title="delete" placement="topRight" @click.native="onDelete">
+          <a-icon type="delete" size="22" />
+        </a-tooltip>
+        <!-- <a-divider type="vertical"/>
+        <a-tooltip content="clear" placement="topRight">
+          <a-icon type="md-cube" size="22" />
+        </a-tooltip> -->
       </div>
-      <!-- <Icon type="ios-refresh-circle-outline" /> -->
     </div>
   </div>
 
@@ -75,14 +74,29 @@ export default {
       keys: [],
       searchText: '',
       focusKey: '',
+      rowSelection: {
+        onChange: (selectedRowKeys, selectedRows) => {
+          console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        },
+        onSelect: (record, selected, selectedRows) => {
+          console.log(record, selected, selectedRows);
+        },
+        onSelectAll: (selected, selectedRows, changeRows) => {
+          this.selection = this.filterKeys.concat()
+          // console.log(selected, selectedRows, changeRows);
+        },
+      },
       columns: [
         {
           type: 'selection',
           width: 60,
-          align: 'center'
+          align: 'center',
+          key: ''
         }, {
-          title: 'Key',
-          key: 'name'
+          title: 'name',
+          dataIndex: 'name',
+          key: 'name',
+          scopedSlots: { customRender: 'name'}
         // }, {
         //   title: 'Type',
         //   key: 'type'
@@ -91,9 +105,10 @@ export default {
         //   key: 'value'
         }, {
           title: 'Action',
-          slot: 'action',
+          key: 'action',
           width: 80,
-          align: 'center'
+          align: 'center',
+          scopedSlots: { customRender: 'action'}
         }
       ],
       dbsize: 0,
@@ -108,13 +123,16 @@ export default {
     ...mapGetters(['curConnection']),
     ...mapState(['curConnectionName']),
     filterKeys: function () {
-      let tmp = this.keys.filter(key => key.toLowerCase().indexOf(this.searchText) > -1)
+      console.log(this.keys, '==========================')
+      let tmp = this.searchText.length > 0 ? this.keys.filter(key => key.toLowerCase().indexOf(this.searchText) > -1) : this.keys
+      console.log(tmp)
       return tmp.map(x => {
         return {name: x}
       })
     },
     nestedKeys: function () {
       let newKeys = {}
+      
       return this.keys.forEach((key) => {
         let tmpKeys = key.split(':')
         if (tmpKeys.length === 1) {
@@ -183,16 +201,16 @@ export default {
       if (this.newKey) {
         let client = this.redisClient(this.curConnection)
         client.select(this.dbIndex, () => {
-          client.set(this.newKey, this.newValue, (err, keys) => {
+          client.set(this.newKey, this.newValue, (err, ok) => {
             if (err) return console.log(err)
-            this.keys = keys
+            if(ok === 'OK') this.$message.success('新增成功')
+            this.fetchData()
           })
-          console.log(client.connection_id)
         })
       }
     },
     modalOfAddCancel () {
-
+      this.modalOfAdd = false
     },
     onRefresh () {
       this.fetchData()

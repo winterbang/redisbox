@@ -1,10 +1,10 @@
 <template>
-  <div >
+  <div>
     <div style="margin: 10px 0">
       <template v-if="type === 'string'">
-        <Button type="primary" style="margin-bottom: 8px;float:right">Save</Button>
+        <a-button type="primary" style="margin-bottom: 8px;float:right">Save</a-button>
         <!-- <FormItem label="content" :labelWidth="50"> -->
-        <Input v-model="content" type="textarea" :autosize="{minRows: 2,maxRows: 18}" placeholder="Enter something..." ></Input>
+        <a-textarea v-model="content" :auto-size="{minRows: 2,maxRows: 18}" placeholder="Enter something..." ></a-textarea>
         <!-- </FormItem> -->
         <!-- <textarea name="name" rows="8" cols="80" v-model="reply" style="width: 100%;resize: vertical;"/> -->
       </template>
@@ -30,65 +30,71 @@
             :total="size">
           </el-pagination>
         </div>
-      </template v-else-if="type === 'hash'">
-        <Input v-model="content" type="textarea" :autosize="{minRows: 2,maxRows: 18}" placeholder="Enter something..." ></Input>
-      <template>
-
+      </template>
+      <template v-else-if="type === 'hash'">
+        <a-textarea v-model="content" type="textarea" :auto-size="{minRows: 2,maxRows: 18}" placeholder="Enter something..." ></a-textarea>
       </template>
     </div>
     <div class="toolbar-box">
       <div class="info">
         Key:
-        <Tooltip :content="key" placement="top-start">
-          <content style="max-width:auto">{{key.substr(0, 3)}}...{{key.substring(key.length-3)}}</content>
-        </Tooltip>
-        TTL: <Button type="dashed" size="small">{{ -1 }}</Button>
-        Size: <Button type="dashed" size="small">{{ size }}</Button>
-        Type: <Tag color="cyan">{{ type }}</Tag>
+        <a-tooltip :title="key" placement="topLeft">
+          <content style="max-width:auto">{{key.substr(0, 3)}}...{{key.length > 6 ? key.substring(key.length-3) : ''}}</content>
+        </a-tooltip>
+        TTL: <a-button type="dashed" size="small">{{ -1 }}</a-button>
+        Size: <a-button type="dashed" size="small">{{ size }}</a-button>
+        Type: <a-tag color="cyan">{{ type }}</a-tag>
       </div>
       <div class="action">
         <!-- 重命名key -->
-        <Tooltip content="rename" placement="top">
-          <Icon type="md-create" size="22"/>
-        </Tooltip>
-        <Divider type="vertical"/>
+        <a-tooltip title="rename" placement="top">
+          <a-icon type="create" size="22"/>
+        </a-tooltip>
+        <a-divider type="vertical"/>
         <!-- 复制value -->
-        <Tooltip content="copy" placement="top" @click.native="onCopy">
-          <Icon type="md-copy" size="22"/>
-        </Tooltip>
-        <Divider type="vertical"/>
+        <a-tooltip title="copy" placement="top" @click.native="onCopy">
+          <a-icon type="copy" size="22"/>
+        </a-tooltip>
+        <a-divider type="vertical"/>
         <!-- 添加 -->
-        <Tooltip content="add" placement="top">
-          <Icon type="md-add" size="22"/>
-        </Tooltip>
-        <Divider type="vertical"/>
+        <a-tooltip title="add" placement="top">
+          <a-icon type="plus-circle" size="22"/>
+        </a-tooltip>
+        <a-divider type="vertical"/>
         <!-- 刷新 -->
-        <Tooltip content="refresh" placement="top">
-          <Icon type="md-refresh" size="22" title="refresh"/>
-        </Tooltip>
-        <Divider type="vertical"/>
+        <a-tooltip title="refresh" placement="top">
+          <a-icon type="reload" size="22" title="refresh"/>
+        </a-tooltip>
+        <a-divider type="vertical"/>
         <!-- 下载到文本中 -->
-        <Tooltip content="download" placement="top">
-          <Icon type="md-download" size="22" />
-        </Tooltip>
-        <Divider type="vertical"/>
+        <a-tooltip title="download" placement="top">
+          <a-icon type="download" size="22" />
+        </a-tooltip>
+        <a-divider type="vertical"/>
         <!-- 删除 -->
-        <Tooltip content="delete" placement="top-end" @click.native="onDelete">
-          <Icon type="md-trash" size="22" />
-        </Tooltip>
-        <Divider type="vertical"/>
-        <Dropdown @on-click="onChangeStyle">
+        <a-tooltip title="delete" placement="topLeft">
+          <a-popconfirm
+            title="确定要删除吗？"
+            ok-text="确定"
+            cancel-text="取消"
+            @confirm="onDelete"
+            placement="topRight"
+          >
+            <a-icon type="delete" />
+          </a-popconfirm>
+        </a-tooltip>
+        <a-divider type="vertical"/>
+        <a-dropdown @on-click="onChangeStyle" placement="topRight">
             <!-- Plain Text -->
-          <Icon type="ios-arrow-back" size="22"/>
+          <a-icon type="file" size="22"/>
           <strong style="display:inline-block;width:56px;vertical-align: sub;text-align: center;">{{textStyle}}</strong>
-          <Icon type="ios-arrow-forward" size="22"/>
           <!-- <Icon type="md-code" size="22" /> -->
-          <DropdownMenu slot="list">
-            <DropdownItem v-for="style in ['Json', 'Plain Text', 'HEX']" :name="style" :selected="style === textStyle" :key="style">
+          <a-menu slot="overlay">
+            <a-menu-item v-for="style in ['Json', 'Plain Text', 'HEX']" :name="style" :selected="style === textStyle" :key="style">
               {{style}}
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
+            </a-menu-item>
+          </a-menu>
+        </a-dropdown>
       </div>
       <!-- <Icon type="ios-refresh-circle-outline" /> -->
     </div>
@@ -120,8 +126,8 @@ export default {
     },
     onCopy () {
       clipboard.writeText(this.content)
-      this.$Notice.info({
-        desc: '已经复制到粘贴板'
+      this.$notification.info({
+        message: '已经复制到粘贴板'
       })
     },
     onDelete () {
@@ -131,8 +137,8 @@ export default {
           if (err) {
             return console.log(err)
           } else {
-            this.$Notice.info({
-              desc: '删除成功'
+            this.$notification.info({
+              message: '删除成功'
             })
           }
         })
@@ -143,16 +149,18 @@ export default {
     ...mapGetters(['curConnection']),
     content () {
       let result = ''
-      switch (this.textStyle) {
-        case 'Plain Text':
-          result = JSON.stringify(this.reply)
-          break
-        case 'HEX':
-          result = JSON.stringify(this.reply)
-          break
-        default:
-          result = JSON.stringify(this.reply, undefined, 2)
-      }
+      // switch (this.textStyle) {
+      //   case 'Plain Text':
+      //     result = JSON.stringify(this.reply)
+      //     break
+      //   case 'HEX':
+      //     result = JSON.stringify(this.reply)
+      //     break
+      //   default:
+      //     result = JSON.stringify(this.reply, undefined, 2)
+      // }
+      result = this.reply
+      console.log(result)
       return result
     }
   },
@@ -165,7 +173,7 @@ export default {
     client.select(this.db, () => {
       client.type(this.key, (err, type) => {
         if (err) return console.log(err)
-        console.log(type)
+        console.log(type, 'type===================')
         this.type = type
         switch (type) {
           case 'list':
@@ -184,7 +192,8 @@ export default {
             client.get(this.key, (err, reply) => {
               if (err) return console.log(err)
               console.log(reply)
-              this.reply = JSON.parse(reply)
+              // this.reply = JSON.parse(reply)
+              this.reply = reply
             })
             break
           case 'hash':
@@ -201,7 +210,7 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style >
   .ivu-tooltip-inner {
     max-width: none;
   }

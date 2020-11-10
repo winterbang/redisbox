@@ -9,14 +9,50 @@ function RedisBox () { }
 //   console.log(this.name)
 // }
 
+function retry_strategy (options) {
+  if (options.error && options.error.code === "ECONNREFUSED") {
+    return new Error("The server refused the connection");
+  }
+  if (options.total_retry_time > 1000 * 60 * 60) {
+    return new Error("Retry time exhausted");
+  }
+  if (options.attempt > 10) {
+    return undefined;
+  }
+  console.log('retry_strategy =============')
+  return Math.min(options.attempt * 100, 3000);
+}
 RedisBox.clients = {}
 RedisBox.getClient = function (connt) {
+  console.log(connt, 'connt =================')
   console.log(this.clients[connt._id])
-  if (!this.clients[connt._id]) {
-    this.clients[connt._id] = redis.createClient(connt)
-  }
+  if (!this.clients[connt._id]) this.clients[connt._id] = redis.createClient({...connt, retry_strategy: retry_strategy})
+
+  // this.clients[connt._id].on('reconnecting', (delay, attemp) => {
+  //   console.log('reconnecting ======================')
+  //   console.log(delay, '=====================')
+  //   console.log(attemp, '=====================')
+  // })
+
+  this.clients[connt._id].on('error', (err) => {
+    console.log('connetion error', '=======================')
+    // dialog.showMessageBox({type: 'error', message: err.message})
+    this.clients[connt._id].quit()
+    this.clients[connt._id] = null
+  })
+  // let self = this
+  this.clients[connt._id].on('connect', (result) => {
+    console.log(this.clients[connt._id], 'connect ====================')
+    // this.setCurConnectionName(connection.name)
+    // // this.$set(this.connections, index, connection)
+    // console.log('dblist')
+    // this.$router.push({name: 'DbList', params: { id: connection._id }})
+  })
+
   return this.clients[connt._id]
 }
+
+
 // RedisClient.getInstance = (function() {
 //   var instance = null
 //   return function(name) {
