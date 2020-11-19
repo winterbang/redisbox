@@ -8,9 +8,9 @@
             </a-layout-sider>
             <a-layout style="min-width: 780px;">
               <transition  mode="out-in" name="fade">
-                <keep-alive v-if="$route.meta.keepAlive">
+                <!-- <keep-alive v-if="$route.meta.keepAlive"> -->
                   <router-view></router-view>
-                </keep-alive>
+                <!-- </keep-alive> -->
               </transition>
             </a-layout>
           </a-layout>

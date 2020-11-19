@@ -28,6 +28,16 @@ export default {
   computed: {
     ...mapState(['curConnectionName'])
   },
+  watch: {
+    $route:{
+      handler(to, from){  
+        this.$nextTick(() => {
+          this.activeLabel = to.name.toLowerCase()
+        })
+      },
+      immediate: true
+    }
+  },
   methods: {
     ...mapActions(['increment']),
     onNav (label) {
