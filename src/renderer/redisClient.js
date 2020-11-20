@@ -91,6 +91,7 @@ export default function (Vue, options) {
   Vue.prototype.redisClient = function (connection) {
     console.log('=======redisClient')
     const client = RedisBox.getClient(connection)
+    console.log(client, '=======================client ====================')
     // client.monitor(function (err, res) {
     //   if (err) console.log(err)
     //   console.log('Entering monitoring mode.')

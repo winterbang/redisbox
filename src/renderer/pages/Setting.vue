@@ -3,8 +3,8 @@
     <a-form :label-width="70">
     <!-- <Form style="width: 57%;margin: 0 auto;"> -->
       <a-form-item label="Language">
-        <a-select v-model="formData.language" disabled>
-          <a-option v-for="item in ['中文', 'English']" :value="item" :key="item">{{ item }}</a-option>
+        <a-select v-model="formData.local" disabled>
+          <a-select-option v-for="item in ['中文', 'English']" :value="item" :key="item">{{ item }}</a-select-option>
         </a-select>
       </a-form-item>
       <!-- <FormItem label="窗口模式" v-model="switchValue">
@@ -13,7 +13,7 @@
           <span slot="close">多窗口</span>
         </i-switch>
       </FormItem> -->
-      <a-formItem label="窗口模式" >
+      <a-form-item label="窗口模式" >
         <a-radio-group v-model="formData.windowModal">
           <a-radio label="single">
             <!-- <Icon type="logo-apple"></Icon> -->
@@ -24,7 +24,7 @@
             <span>多窗口</span>
           </a-radio>
         </a-radio-group>
-      </a-formItem>
+      </a-form-item>
     </a-form>
   </div>
 </template>

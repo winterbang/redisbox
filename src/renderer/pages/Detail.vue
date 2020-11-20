@@ -4,35 +4,26 @@
       <template v-if="type === 'string'">
         <a-button type="primary" style="margin-bottom: 8px;float:right">Save</a-button>
         <!-- <FormItem label="content" :labelWidth="50"> -->
-        <a-textarea v-model="content" :auto-size="{minRows: 2,maxRows: 18}" placeholder="Enter something..." ></a-textarea>
+        <a-textarea v-model="content" :auto-size="{minRows: 3,maxRows: 18}" placeholder="Enter something..." ></a-textarea>
         <!-- </FormItem> -->
         <!-- <textarea name="name" rows="8" cols="80" v-model="reply" style="width: 100%;resize: vertical;"/> -->
       </template>
       <!-- list show -->
       <template v-else-if="type === 'list'">
-        <el-table :data="reply" border>
-          <el-table-column type="index" :index="indexMethod" />
-          <el-table-column prop="date" label="Value" min-width="200" >
-            <template slot-scope="scope">
-              <span>{{ scope.row }}</span>
+        <a-table :data-source="reply" :columns="columns" bordered :row-key="(record) => record">
+          <!-- <el-table-column type="index" :index="indexMethod" /> -->
+            <template slot-scope="text, row" slot="name">
+              {{row}}
             </template>
-          </el-table-column>
-          <el-table-column label="Opetion">
-            <template slot-scope="scope">
-              <el-button type="primary" icon="el-icon-edit" circle size="mini"></el-button>
-              <el-button type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+            <template slot="action">
+              <a-button type="primary" icon="edit" shape="circle" size="small"></a-button>
+              <a-button type="danger" icon="delete" shape="circle" size="small"></a-button>
             </template>
-          </el-table-column>
-        </el-table>
-        <div class="block">
-          <el-pagination
-            layout="prev, pager, next"
-            :total="size">
-          </el-pagination>
-        </div>
+          <!-- </el-table-column> -->
+        </a-table>
       </template>
       <template v-else-if="type === 'hash'">
-        <a-textarea v-model="content" type="textarea" :auto-size="{minRows: 2,maxRows: 18}" placeholder="Enter something..." ></a-textarea>
+        <a-textarea v-model="content" type="textarea" :auto-size="{minRows: 3,maxRows: 18}" placeholder="Enter something..." ></a-textarea>
       </template>
     </div>
     <div class="toolbar-box">
@@ -112,7 +103,18 @@ export default {
       reply: null,
       type: null, // ['list', 'string', 'hash']
       size: 10,
-      textStyle: 'Json' // ['Json', 'Plain Text', 'HEX']
+      textStyle: 'Json', // ['Json', 'Plain Text', 'HEX']
+      columns: [
+        {
+          title: 'key',
+          dataIndex: 'name',
+          key: 'key',
+          scopedSlots: { customRender: 'name' }
+        }, {
+          title: 'action',
+          scopedSlots: { customRender: 'action' }
+        }
+      ]
     }
   },
   methods: {
@@ -173,25 +175,22 @@ export default {
     client.select(this.db, () => {
       client.type(this.key, (err, type) => {
         if (err) return console.log(err)
-        console.log(type, 'type===================')
         this.type = type
         switch (type) {
           case 'list':
             client.lrange(this.key, 0, 9, (err, reply) => {
               if (err) return console.log(err)
-              console.log(reply)
+              console.log(reply, 'reply =====================')
               this.reply = reply
             })
             client.llen(this.key, (err, reply) => {
               if (err) return console.log(err)
-              console.log(reply)
               this.size = reply
             })
             break
           case 'string':
             client.get(this.key, (err, reply) => {
               if (err) return console.log(err)
-              console.log(reply)
               // this.reply = JSON.parse(reply)
               this.reply = reply
             })
@@ -199,7 +198,6 @@ export default {
           case 'hash':
             client.hgetall(this.key, (err, reply) => {
               if (err) return console.log(err)
-              console.log(reply)
               this.reply = reply
             })
             break

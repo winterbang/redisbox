@@ -1,74 +1,66 @@
 <template>
-  <div
-    style="overflow-y: scroll;display:flex;justify-content: center;padding:20px 0"
-  >
-    <a-card
-      title="About Redisbox"
-      icon="ios-options"
-      :padding="0"
-      shadow
-      style="width: 70%"
-    >
-      <!-- <a-cell-group> -->
-      <a-cell title="Version" :extra="version" />
-      <a-cell
-        title="Github"
-        extra="https://winterbang.github.com/redisbox"
-        to="https://winterbang.github.com/redisbox"
-      />
-      <a-cell title="Website" @click.native="openBrowser()">
-        <div slot="extra">
-          https://blog.zhangmoumou.com/redisbox
-          <a-icon type="ios-browsers-outline" size="22" />
-        </div>
-      </a-cell>
-      <a-cell
-        title="Telegram"
-        @click.native="openBrowser('tg://join?invite=DT4gRA5methtroPJ-lIYKQ')"
-      >
-        <div slot="extra">
-          <a-icon type="ios-browsers-outline" size="22" />
-        </div>
-      </a-cell>
-      <a-cell title="Auther" extra="winter" />
-      <!-- </a-cell-group> -->
+  <div style="overflow-y: scroll;display:flex;justify-content: center;padding:20px 0">
+    <a-card title="About Redisbox" icon="ios-options" :padding="0" shadow style="width: 70%">
+      <a-list item-layout="horizontal" :data-source="data">
+        <a-list-item slot="renderItem" slot-scope="item, index">
+          <a-list-item-meta :description="item.desc">
+            <a-tag slot="title" @click="openBrowser(item.desc)">{{ item.title }}</a-tag>
+            <!-- <a-avatar
+              slot="avatar"
+              src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+            /> -->
+          </a-list-item-meta>
+        </a-list-item>
+      </a-list>
     </a-card>
   </div>
 </template>
 
 <script>
-import { shell } from "electron";
+import { shell } from 'electron'
 export default {
-  name: "information",
+  name: 'information',
   data() {
     return {
-      version: "",
-    };
+      version: '',
+      data: [
+        {
+          title: 'version',
+          desc: '1.0.0'
+        },
+        {
+          title: 'Github',
+          desc: 'https://github.com/winterbang/redisbox'
+        },
+        {
+          title: 'Website',
+          desc: 'http://redisbox.com'
+        },
+        {
+          title: 'Telegram',
+          desc: 'tg://join?invite=DT4gRA5methtroPJ-lIYKQ'
+        },
+        {
+          title: 'Auther',
+          desc: 'winter'
+        },
+        {
+          title: '联系邮箱',
+          desc: 'winterbang@126.com'
+        }
+      ]
+    }
   },
   methods: {
-    openBrowser(url = "http://blog.zhchsh.xyz") {
-      shell.openExternal(url);
-    },
+    openBrowser(url = 'http://blog.zhchsh.xyz') {
+      if (url.includes('http')) shell.openExternal(url)
+    }
   },
   created() {
-    this.version = process.env.npm_package_version;
+    this.version = process.env.npm_package_version
     // console.log(procwwwess.env)
-  },
-};
+  }
+}
 </script>
 <style lang="css" scoped>
-.ivu-card-head p {
-  font-size: 36px;
-  height: 36px;
-}
-.ivu-cell {
-  font-size: 18px !important;
-}
-.ivu-cell-arrow {
-  font-size: 22px;
-}
-.ivu-cell-title {
-  line-height: 52px;
-  font-size: 22px;
-}
 </style>

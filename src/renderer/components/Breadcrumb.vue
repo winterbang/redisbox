@@ -1,20 +1,28 @@
 <template>
   <div class="breadcrumb-wrap">
     <a-breadcrumb separator=">" style="padding: 10px 10px;">
-      <a-breadcrumb-item :to="{ name: 'Conns' }">conns</a-breadcrumb-item>
-      <a-breadcrumb-item :to="{ name: 'DbList', params: {id: curConnection._id } }">
-        {{curConnectionName}} <a-icon type="info-circle" @click.stop="onConnInfo"/>
+      <a-breadcrumb-item>
+        <router-link :to="{ name: 'Conns' }">conns</router-link>
       </a-breadcrumb-item>
       <a-breadcrumb-item>
-        <a-select class="form-control" style="width: 80px;" v-model="dbIndex" @change="toDb" >
-          <a-select-option v-for="i in 16" :value="i-1" :key="i" >DB{{i-1}}</a-select-option>
+        <router-link :to="{ name: 'DbList', params: {id: curConnection._id } }">
+          {{curConnectionName}} <a-icon type="info-circle" @click.prevent="onConnInfo"/>
+        </router-link>
+      </a-breadcrumb-item>
+      <a-breadcrumb-item>
+        <a-select class="form-control" size="small" v-model="dbIndex" :default-value="'DB' + dbIndex" @change="toDb" style="width: 70px">
+          <a-select-option v-for="i in 16" :value="i-1" :key="i-1" >DB{{i-1}}</a-select-option>
         </a-select>
       </a-breadcrumb-item>
-      <a-breadcrumb-item v-if="dbIndex != null" :to="{ name: 'Keys', params: {id: dbIndex} }">
-        All
+      <a-breadcrumb-item>
+        <router-link v-if="dbIndex != null" :to="{ name: 'Keys', params: {id: dbIndex} }">
+          All
+        </router-link>
       </a-breadcrumb-item>
-      <a-breadcrumb-item :to="{ name: 'Keys', params: {id: dbIndex}, query: {text: keys.slice(0, keys.indexOf(key)+1)}}" v-for="key in keys" :key="key">
-        {{ key }}
+      <a-breadcrumb-item>
+        <router-link :to="{ name: 'Keys', params: {id: dbIndex}, query: {text: keys.slice(0, keys.indexOf(key)+1)}}" v-for="key in keys" :key="key">
+          {{ key }}
+        </router-link>
       </a-breadcrumb-item>
     </a-breadcrumb>
     <a-modal
@@ -34,10 +42,10 @@ import { mapState, mapGetters } from 'vuex'
 export default {
   data () {
     return {
-      dbIndex: null,
+      dbIndex:0,
       keys: [],
       modalOfConnInfo: false,
-      connInfo: null
+      connInfo: null,
     }
   },
   methods: {

@@ -40,23 +40,35 @@ export default {
   },
   beforeMount () {
     let client = this.redisClient(this.curConnection)
-    client.info('keyspace', (err, reply) => {
+    let p = Promise.resolve()
+    for (let i = 0; i < 16; i++) {
+      p = p.then( _ => new Promise(resolve =>
+        client.select(i, async (err, reply) => {
+          if(err) console.log(err)
+          await client.dbsize((err, reply) => {
+            this.$set(this.dbsInfo, `db${i}`, {'keys': reply})
+            resolve()
+          })
+        })  
+      ))
+    }
+    client.info((err, reply) => {
       if (err) console.log(err)
       this.connInfo = reply
       let replyArray = reply.split('\n')
-      let dbsInfo = {}
-      replyArray.forEach(v => {
-        if (v.includes('db')) {
-          let dbInfo = v.split(':')
-          let infos = dbInfo[1].split(',')
-          dbsInfo[dbInfo[0]] = {}
-          infos.forEach(v => {
-            let info = v.split('=')
-            dbsInfo[dbInfo[0]][info[0]] = info[1]
-          })
-        }
-      })
-      this.dbsInfo = dbsInfo
+      // let dbsInfo = {}
+      // replyArray.forEach(v => {
+      //   if (v.includes('db')) {
+      //     let dbInfo = v.split(':')
+      //     let infos = dbInfo[1].split(',')
+      //     dbsInfo[dbInfo[0]] = {}
+      //     infos.forEach(v => {
+      //       let info = v.split('=')
+      //       dbsInfo[dbInfo[0]][info[0]] = info[1]
+      //     })
+      //   }
+      // })
+      // this.dbsInfo = dbsInfo
     })
     // this.modalOfConnInfo = true
   },

@@ -2,8 +2,8 @@
   <div style="display: flex;flex-direction: column;justify-content: center;margin: 0 auto;padding: 20px">
     <a-alert message="您的意见是我们不断进步的动力，请留下您在使用中遇到的问题或提出宝贵的建议。" type="info" show-icon></a-alert>
     <a-form :model="formItem" :label-width="80">
-      <a-form-item label="Detail">
-        <a-input v-model="formItem.detail" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..."></a-input>
+      <a-form-item label="建议或意见">
+        <a-input v-model="formItem.detail" type="textarea" :auto-size="{minRows: 3,maxRows: 5}" placeholder="Enter something..."></a-input>
       </a-form-item>
       <a-form-item label="称呼">
         <a-input v-model="formItem.username" placeholder="Enter your call"></a-input>
@@ -12,7 +12,7 @@
         <a-input v-model="formItem.email" placeholder="Enter your email"></a-input>
       </a-form-item>
       <a-form-item>
-        <a-button type="primary" @click="onSubmit">Submit</a-button>
+        <a-button type="primary" @click="onSubmit">发送</a-button>
         <!-- <Button style="margin-left: 8px">Cancel</Button> -->
       </a-form-item>
     </a-form>

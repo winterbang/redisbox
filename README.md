@@ -62,6 +62,18 @@ npm run lint
   - [ ] EXISTS (查询一个key是否存在)
   - [ ] EXPIRE (设置一个key的过期的秒数)
   - [ ] EXPIREAT (设置一个UNIXS时间戳的过期的时间)
+  - [ ] PEXPIRE (设置 key 的过期时间以毫秒计)
+  - [ ] PEXPIREAT (设置 key 过期时间的时间戳(unix timestamp) 以毫秒计)
+  - [ ] TYPE (返回key所储存的值的类型)
+  - [ ] MOVE (将当前数据库的 key 移动到给定的数据库 db 当中)
+  - [ ] PERSIST (移除 key 的过期时间，key 将持久保持)
+  - [ ] PTTL (以毫秒为单位返回 key 的剩余的过期时间)
+  - [ ] TTL (以秒为单位，返回给定 key 的剩余生存时间(TTL, time to live))
+  - [ ] RANDOMKEY (从当前数据库中随机返回一个 key)
+  - [ ] RENAME (修改 key 的名称)
+  - [ ] RENAMENX (仅当 newkey 不存在时，将 key 改名为 newkey)
+  - [ ] SCAN (迭代数据库中的数据库键)
+
 - String
   - [x] GET (获取指定key值)
   - [x] MGET (获取多个指定key的值)
