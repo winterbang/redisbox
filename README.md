@@ -5,12 +5,12 @@
   <img src="src/renderer/assets/logo.png"  width="80px" height="80px">
 </div>
 
-<center>
+<div align="center">
   
   [Download](https://github.com/winterbang/redisbox/releases) | [Homepage](http://www.redisbox.com/)
   
-</center>
-<center>
+</div>
+<div align="center">
   
   [![GitHub release](https://img.shields.io/github/release-pre/winterbang/redisbox.svg)](https://github.com/winterbang/redisbox/releases/latest)
 
@@ -18,7 +18,7 @@
 
   [![GitHub All Releases](https://img.shields.io/github/downloads/winterbang/redisbox/total.svg)](https://github.com/winterbang/redisbox/releases/latest)
   
-</center>
+</div>
 
 
 
