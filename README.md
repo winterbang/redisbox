@@ -1,19 +1,26 @@
-<center>
+# Redisbox
+> An `Redis` gui client :desktop_computer:
+
+<div align="center">
   <img src="src/renderer/assets/logo.png"  width="80px" height="80px">
-</center>
+</div>
+
 <center>
+  
   [Download](https://github.com/winterbang/redisbox/releases) | [Homepage](http://www.redisbox.com/)
+  
 </center>
 <center>
+  
   [![GitHub release](https://img.shields.io/github/release-pre/winterbang/redisbox.svg)](https://github.com/winterbang/redisbox/releases/latest)
 
   [![GitHub](https://img.shields.io/github/license/winterbang/redisbox.svg)](https://github.com/winterbang/redisbox/blob/master/LICENSE)
 
   [![GitHub All Releases](https://img.shields.io/github/downloads/winterbang/redisbox/total.svg)](https://github.com/winterbang/redisbox/releases/latest)
+  
 </center>
 
-# Redisbox
-> An `Redis` gui client :desktop_computer:
+
 
 #### Build Setup
 
