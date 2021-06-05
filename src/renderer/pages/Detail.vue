@@ -4,7 +4,7 @@
       <template v-if="type === 'string'">
         <a-button type="primary" style="margin-bottom: 8px;float:right">Save</a-button>
         <!-- <FormItem label="content" :labelWidth="50"> -->
-        <a-textarea v-model="content" :auto-size="{minRows: 3,maxRows: 18}" placeholder="Enter something..." ></a-textarea>
+        <a-textarea v-model="content" :auto-size="{minRows: 3, maxRows: 18}" placeholder="Enter something..." ></a-textarea>
         <!-- </FormItem> -->
         <!-- <textarea name="name" rows="8" cols="80" v-model="reply" style="width: 100%;resize: vertical;"/> -->
       </template>
@@ -198,7 +198,9 @@ export default {
           case 'hash':
             client.hgetall(this.key, (err, reply) => {
               if (err) return console.log(err)
-              this.reply = reply
+              console.log(reply)
+              this.reply = JSON.stringify(reply)
+              // this.reply = reply
             })
             break
         }

@@ -1,13 +1,46 @@
 // import {Client as Ssh} from 'ssh2'
 import redis from 'redis'
+const { RedisClient } = redis
 // import tunnel from 'tunnel-ssh'
 // const client = redis.createClient(connection)
+
+RedisClient.prototype.test = function() {
+  console.log(this)
+  console.log('test prototype')
+}
+
+//
+RedisClient.prototype.fetchKeys = function(db) {
+  return new Promise((resolve, reject) => {
+    this.select(db, () => {
+      this
+        .multi()
+        .scard('key')
+        .smembers('key')
+        // .keys('*')
+        .scan(0, 'MATCH', '*', 'COUNT', 10)
+        .dbsize()
+        .exec(function(err, replies) {
+          if(err) return reject(err)
+          console.log('MULTI got ' + replies.length + ' replies')
+          replies.forEach(function(reply, index) {
+            console.log('REPLY  @ index ' + index + ': ' + reply.toString())
+          })
+          resolve(replies)
+        })
+    })
+  })
+
+}
+
+
 
 function RedisBox () { }
 // // 原型扩展类的一个方法getName()
 // RedisBox.prototype.getName = function() {
 //   console.log(this.name)
 // }
+
 
 function retry_strategy (options) {
   if (options.error && options.error.code === "ECONNREFUSED") {
@@ -22,7 +55,10 @@ function retry_strategy (options) {
   console.log('retry_strategy =============')
   return Math.min(options.attempt * 100, 3000);
 }
+
+// 当前已经链接的redis服务
 RedisBox.clients = {}
+
 RedisBox.getClient = function (connt) {
   console.log(connt, 'connt =================')
   console.log(this.clients[connt._id])
@@ -35,14 +71,12 @@ RedisBox.getClient = function (connt) {
   // })
 
   this.clients[connt._id].on('error', (err) => {
-    console.log('connetion error', '=======================')
     // dialog.showMessageBox({type: 'error', message: err.message})
     this.clients[connt._id].quit()
     this.clients[connt._id] = null
   })
-  // let self = this
+
   this.clients[connt._id].on('connect', (result) => {
-    console.log(this.clients[connt._id], 'connect ====================')
     // this.setCurConnectionName(connection.name)
     // // this.$set(this.connections, index, connection)
     // console.log('dblist')
@@ -89,9 +123,8 @@ RedisBox.getClient = function (connt) {
 
 export default function (Vue, options) {
   Vue.prototype.redisClient = function (connection) {
-    console.log('=======redisClient')
+
     const client = RedisBox.getClient(connection)
-    console.log(client, '=======================client ====================')
     // client.monitor(function (err, res) {
     //   if (err) console.log(err)
     //   console.log('Entering monitoring mode.')

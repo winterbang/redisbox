@@ -102,13 +102,14 @@ export default {
       },
       columns: [
         {
-          title: 'name',
+          title: 'Name',
           dataIndex: 'name',
           key: 'name',
-          scopedSlots: { customRender: 'name' }
-          // }, {
-          //   title: 'Type',
-          //   key: 'type'
+          scopedSlots: { customRender: 'name' },
+          width: 200,
+          }, {
+            title: 'Type',
+            key: 'type'
           // }, {
           //   title: 'Value',
           //   key: 'value'
@@ -182,7 +183,7 @@ export default {
         client.scan(this.cursor, 'MATCH', '*', 'COUNT', this.pagination.pageSize, (err, reply) => {
           if (err) return console.log(err)
           console.log(reply, 'reply scan ==========')
-          // this.cursor = reply[0]
+          this.cursor = reply[0]
           this.keys = reply[1]
         })
 
@@ -197,18 +198,9 @@ export default {
         //   this.keys = reply[1]
         // })
 
-        client
-          .multi()
-          .scard('key')
-          .smembers('key')
-          .keys('*')
-          .dbsize()
-          .exec(function(err, replies) {
-            console.log('MULTI got ' + replies.length + ' replies')
-            replies.forEach(function(reply, index) {
-              console.log('REPLY  @ index ' + index + ': ' + reply.toString())
-            })
-          })
+      })
+      client.fetchKeys(this.dbIndex).then((reply) => {
+        console.log(reply, 'repley =========')
       })
     },
     onRClick(key) {
