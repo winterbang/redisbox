@@ -1,108 +1,45 @@
-'use strict'
+const { app, BrowserWindow } = require('electron')
+// let watcher = require('./monitor')
+const debug = require('electron-debug')
+debug()
+console.log('process.env.NODE_ENV')
+const URL = process.env.NODE_ENV === 'production' ? `file://${__dirname}/index.html` : 'http://localhost:3000/'
 
-import { app, BrowserWindow, ipcMain } from 'electron'
-import '../renderer/store'
-/**
- * Set `__static` path to static files in production
- * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
- */
-if (process.env.NODE_ENV !== 'development') {
-  global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
-}
-
-let mainWindow
-const winURL = process.env.NODE_ENV === 'development'
-  ? 'http://localhost:9080'
-  : `file://${__dirname}/index.html`
-
-function createWindow () {
-  /**
-   * Initial window options
-   */
-  mainWindow = new BrowserWindow({
-    height: 660,
-    minHeight: 600,
+let win 
+function creatWindow(params) {
+  win = new BrowserWindow({
+    height: 670,
+    minHeight: 670,
     minWidth: 1000,
     width: 1000,
-    // transparent: true,
-    // frame: false,
     titleBarStyle: 'hidden',
-    // titleBarStyle: 'hiddenInset',
-    // titleBarAppearsTransparent: true,
-    center: true,
-    // 'standard-window': false
-    // backgroundColor: '#2e2c29'
+    movable: true,
     webPreferences: {
-      nodeIntegration: true,
-      enableRemoteModule: true, // 允许在渲染进程中使用remote 模块
+      contextIsolation: false, // 将contextIsolation 上下文是否是独立的设置为false，否则组件中使用window对象和preload的对象不是一个对象
+      preload: __dirname +  '/preload.js'
     }
   })
 
-  mainWindow.loadURL(winURL)
-  // console.log(app.getPath('userData'))
-  mainWindow.on('closed', () => {
-    mainWindow = null
-  })
+  if(process.env.NODE_ENV === 'production') {
+    win.loadFile('index.html')
+  } else {
+    win.loadURL(URL)
+  }
 
-  // mainWindow.on('onbeforeunload', (e) => {
-  //   console.log('I do not want to be closed')
-  //   e.returnValue = false
-  //   // return 'Are you sure you want to exit?'
-  // })
-  console.log(app.getLocale())
-  // if (process.env.NODE_ENV === 'development') mainWindow.webContents.openDevTools()
+  // watcher(win)
 }
 
-app.on('ready', createWindow)
-
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
+app.whenReady().then(() => {
+  creatWindow()
+  app.on('activate', () => {
+    if(BrowserWindow.getAllWindows().length === 0) creatWindow()
+  })
 })
 
-app.on('activate', () => {
-  if (mainWindow === null) {
-    createWindow()
-  }
+app.on('close', () => {
+  win = null
 })
 
-ipcMain.on('asynchronous-message', (event, arg) => {
-  console.log(arg) // prints "ping"
-  event.sender.send('asynchronous-reply', 'pong')
+app.on('window-all-close', () => {
+  if(process.platform !== 'darwin') app.quit()
 })
-ipcMain.on('synchronous-message', (event, arg) => {
-  console.log(arg) // prints "ping"
-  event.returnValue = 'pong'
-})
-
-ipcMain.on('openConsole', function (e, data) {
-  const modalPath = process.env.NODE_ENV === 'development'
-    ? 'http://localhost:9080/#/console'
-    : `file://${__dirname}/index.html#/console`
-  let win = new BrowserWindow({ width: 1000, height: 620, webPreferences: { webSecurity: false }, parent: mainWindow })
-  win.on('close', function () { win = null })
-  console.log(modalPath)
-  win.loadURL(modalPath)
-  e.returnValue = 'pong'
-})
-
-/**
- * Auto Updater
- *
- * Uncomment the following code below and install `electron-updater` to
- * support auto updating. Code Signing with a valid certificate is required.
- * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
- */
-
-/*
-import { autoUpdater } from 'electron-updater'
-
-autoUpdater.on('update-downloaded', () => {
-  autoUpdater.quitAndInstall()
-})
-
-app.on('ready', () => {
-  if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
-})
- */
