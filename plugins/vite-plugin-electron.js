@@ -24,11 +24,7 @@ export default function() {
     name: 'vite-plugin-electron',
     buildStart() {
       if(electronProcess) return
-      let args = [
-        '--inspect=5858',
-        path.join(__dirname, '../src/main/index.js')
-      ]
-
+      let args = [ '--inspect=5858', path.join(__dirname, '../src/main/index.js') ]
       electronProcess = spawn(electron, args)
 
       electronProcess.stdout.on('data', data => {

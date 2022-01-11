@@ -4,11 +4,17 @@
   "author": "zwtao90@gmail.com",
   "description": "Redis 图形化客户端",
   "license": "MIT",
-  "main": "main.js",
+  "main": "./src/main/index.js",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --force",
     "build": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "make": "electron-forge make",
+    "start": "NODE_ENV=production electron-forge start",
+    "package": "NODE_ENV=production electron-forge package"
+  },
+  "config": {
+    "forge": "./forge.config.js"
   },
   "build": {
     "productName": "redisbox",
@@ -46,13 +52,27 @@
   },
   "dependencies": {
     "electron": "^16.0.1",
-    "vue": "^3.2.22"
+    "electron-squirrel-startup": "^1.0.0",
+    "nedb": "^1.8.0",
+    "redis": "^4.0.1",
+    "vue": "^3.2.22",
+    "vue-router": "4"
   },
   "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.61",
+    "@electron-forge/maker-deb": "^6.0.0-beta.61",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.61",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.61",
+    "@electron-forge/maker-zip": "^6.0.0-beta.61",
     "@vitejs/plugin-vue": "^1.10.0",
     "chalk": "^4.1.2",
     "electron": "^16.0.1",
     "electron-debug": "^3.2.0",
-    "vite": "^2.6.14"
+    "less": "^4.1.2",
+    "less-loader": "^10.2.0",
+    "sass": "^1.47.0",
+    "style-resources-loader": "^1.5.0",
+    "vite": "^2.6.14",
+    "vite-plugin-html": "^2.1.2"
   }
 }
