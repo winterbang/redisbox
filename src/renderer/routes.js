@@ -20,11 +20,11 @@ const routes = [
                 component: () => import('./pages/Connections.vue'),
             }, {
                 path: ':connection_id',
-                name: 'connection',
+                name: 'dbs',
                 component: () => import('./pages/Dbs.vue')
             }, {
                 path: ':connection_id/:db',
-                name: 'db',
+                name: 'keys',
                 component: () => import('./pages/Keys.vue')
             }
         ]

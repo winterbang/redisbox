@@ -1,13 +1,15 @@
 <template>
-    <router-view></router-view>         
+    <router-view />
 </template>
-<script setup>
-import {
-  onMounted,
-} from 'vue'
-import { useRouter } from 'vue-router'
-const router = useRouter();
-onMounted(() => {
-    router.push('/main')
-})
+<script>
+import { onMounted, onBeforeMount } from 'vue'
+// import { useRouter } from 'vue-router'
+export default {
+    setup() {  
+        onMounted(() => {
+            console.log('=======')
+        })
+        return {}
+    }
+}
 </script>

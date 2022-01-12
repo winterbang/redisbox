@@ -1,9 +1,7 @@
 <template> 
-    <section style="position: fixed;">
-
-    </section>
+    <section style="position: fixed;"></section>
     <div class="title-bar">
-        <div class="menus-l">
+        <div class="menus-l" :style="{width: fold ? '60px' : '140px'}">
             <span class="icon-add-redis">
                 <svg-icon @click="newConnection" symbol="icon-redis" size="20" color="rgb(243 64 64)"/>
             </span>
@@ -16,17 +14,22 @@
     <main>
         <aside class="fold-panel" :style="{width: fold ? 0 : '240px'}">
             <div class="fold-content">
-                <div v-for="connection in connections" :key="connection._id">
-                    <h4 style="margin: 15px 0 0 15px;color: #202225">
-                        <svg-icon symbol="icon-redis" size="18"/>
-                        <span style="margin-left: 8px;">{{connection.name}}</span>
-                    </h4>
-                    <ul class="db-list">
-                        <li v-for="i in 16" :key="i">
-                            <svg-icon symbol="icon-database" size="24" color="#949292"/>
-                            <span style="vertical-align: text-top;" :alt="i-1" class="db-number"></span>
-                        </li>
-                    </ul>
+                <div class="menu" v-for="connection in connections" :key="connection._id">
+                    <header class="hd" style="">
+                        <span class="title" @click="toConnection(connection._id)">
+                            <svg-icon symbol="icon-redis" size="18"/>
+                            <span style="margin-left: 8px;">{{connection.name}}</span>
+                        </span>
+                        <svg-icon symbol="icon-shouqi2" size="24" />
+                    </header>
+                    <section class="menu-items">
+                        <ul class="db-list">
+                            <li v-for="i in 16" :key="i">
+                                <svg-icon symbol="icon-database" size="24" color="#949292"/>
+                                <span style="vertical-align: text-top;" :alt="i-1" class="db-number"></span>
+                            </li>
+                        </ul>
+                    </section>
                 </div>
             </div>
             
@@ -40,22 +43,29 @@
 </template>
 <script setup>
 // import HelloWorld from './components/HelloWorld.vue'
-import {reactive, ref, getCurrentInstance} from 'vue'
+import {reactive, ref, getCurrentInstance, toRefs} from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
-const route = useRoute()
+// const route = useRoute()
 
 const { proxy } = getCurrentInstance()
 const fold = ref(false)
-const connections = ref([])
-proxy.$datastore.find({}, (err, docs) => {
-    console.log(docs, 'docs ========')
-    connections.value = docs
+const data = reactive({
+    connections: []
 })
-
+proxy.$datastore
+    .find({})
+    .then(docs => {
+        console.log(docs, 'docs ========')
+        data.connections = docs
+    })
+const { connections } = toRefs(data)
 function newConnection() {
     // router.push('/about')
     // window.subWindow.newConnection()
+}
+function toConnection(id) {
+    router.push({name: 'dbs', params: {connection_id: id}})
 }
 </script>
 
@@ -72,11 +82,13 @@ function newConnection() {
     border-bottom: 1px solid #EAE8E8;
     .menus-l {
         display: flex;
-        width: 240px;
+        width: 140px;
         height: 100%;
         justify-content: space-between;
         align-items: center;
         padding:0 10px 0  90px;
+        box-sizing: content-box;
+        transition: width .3s ease-in-out;
     }
     .icon-add-redis {
         position: relative;
@@ -119,42 +131,6 @@ main {
             width: 240px;
             overflow-y: auto;
             padding-top: 15px;
-            .db-list {
-                box-sizing: border-box;
-                display: grid;
-                grid-template-columns: repeat(2, 50%);
-                grid-template-rows: repeat(8, 60px);
-                align-items: center;
-
-                list-style-type: none;
-                width: 100%;
-                padding: 0;
-                text-align: center;
-                padding: 0 15px;
-                margin: 0;
-                li {
-                    padding: 8px 0;
-                    cursor: pointer;
-                    border-radius: 5px;
-                    color: $grey-1;
-                    &:hover {
-                        background: $grey-dark;
-                        color: #202225;
-                        font-weight: bold;
-                    }
-                }
-                .db-number{
-                    position: relative;
-                    &::before {
-                        content: attr(alt);
-                        position: absolute;
-                        color: #3c3c3c;
-                        left: -7px;
-                        top: 24px;
-                        font-weight: 500;
-                    }
-                }
-            }
         }
         
     }
@@ -165,8 +141,66 @@ main {
         .content {
             height: 100%;
             overflow: auto;
+            padding: 15px;
         }
     }
 }
 
+
+.menu {
+    .hd {
+        line-height: 40px; 
+        padding: 0 15px;
+        // color: #202225;
+        display:flex;
+        justify-content: space-between;
+        align-items: center;
+        .title {
+            cursor: pointer;
+        }
+    }
+    .menu-items {
+        padding: 0 24px;
+        overflow: hidden;
+        // height: 0;
+        .db-list {
+            box-sizing: border-box;
+            display: grid;
+            grid-template-columns: repeat(2, 40%);
+            grid-template-rows: repeat(8, 60px);
+            align-items: center;
+            justify-content: space-around;
+            list-style-type: none;
+            width: 100%;
+            padding: 0;
+            text-align: center;
+            
+            margin: 0;
+            background-color: #efefef;
+            border-radius: 10px;
+            li {
+                padding: 8px 0;
+                cursor: pointer;
+                border-radius: 5px;
+                color: $grey-1;
+                &:hover {
+                    background: $grey-dark;
+                    color: #202225;
+                    font-weight: bold;
+                }
+            }
+            .db-number{
+                position: relative;
+                &::before {
+                    content: attr(alt);
+                    position: absolute;
+                    color: #3c3c3c;
+                    left: -7px;
+                    top: 8px;
+                    font-weight: 500;
+                }
+            }
+        }
+    }
+}
 </style>

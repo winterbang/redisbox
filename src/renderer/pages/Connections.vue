@@ -1,41 +1,53 @@
 <template>
     <div class="connection-list">
-        <div class="connection-box" v-for="i in 5" :key="i" @click="onConnect">
-            <p>localhost</p>
-            <p>127.0.0.1:90</p>
+        <div class="connection-box" v-for="connection in connections" :key="connection._id" @click="onConnect(connection._id)">
+            <span>{{ connection.name }}</span>
+            <span>{{connection.host}}:{{connection.port}}</span>
         </div>
     </div>
     
 </template>
 <script setup>
 import { useRouter } from 'vue-router'
-import { getCurrentInstance } from 'vue'
+import { getCurrentInstance, reactive, onBeforeMount, toRefs } from 'vue'
 const { proxy } = getCurrentInstance()
 const router = useRouter()
-function onConnect() {
-    // window.redis.createClient()
-    // router.push({name: 'connection', params: {connection_id: '1111111'}})
-    router.push({name: 'db', params: {connection_id: '1111111', db: 0}})
+const data = reactive({ connections: [] })
+proxy.$datastore
+    .find({})
+    .then(docs => data.connections = docs)
+
+const { connections } = toRefs(data)
+// onBeforeMount(() => {
+//     proxy.$datastore.find({}, (err, docs) => {
+//         console.log(docs, 'docs ========')
+//         connections = docs
+//     })
+// })
+function onConnect(id) {
+    router.push({name: 'dbs', params: {connection_id: id, db: 0}})
 }
 </script>
 <style lang="less" scoped>
 .connection-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 240px);
+    // grid-template-rows: repeat(auto-fill, 60px);
+    justify-content: space-around;
     align-items: center;
-    gap: 15px;
-    
+    row-gap: 20px;
+    // column-gap: 20px;
     .connection-box {
-        // min-width: 280px;
-        width: 33.3%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
         border-radius: 5px;
         background-color: aliceblue;
-        padding: 8px;
+        padding: 15px;
         cursor: pointer;
-        margin-bottom: 10px;
-        &:last-child {
-            margin: auto;
+        border: 1px solid transparent;
+        &:hover {
+            border: 1px dashed #ccc;
         }
     }
 }
