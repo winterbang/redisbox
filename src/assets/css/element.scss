@@ -1,0 +1,118 @@
+// @import "variables.scss";
+
+// reset 
+
+:root {
+    --aside-left-width: 340px;
+}
+
+html {
+    height: 100%;
+    user-select: none;
+}
+body {
+    margin: 0;
+    height: 100%;
+    font-family: Helvetica;
+    color: rgb(52, 53, 56)
+}
+
+div {
+    box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 50px;
+    box-shadow: inset 0 0 #c3c6cf;
+}
+
+::-webkit-scrollbar-thumb:vertical, ::-webkit-scrollbar-thumb:horizontal{
+    background-color: rgb(197, 197, 197);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 5px;
+    background: rgb(241, 241, 241);
+}
+::-webkit-scrollbar-track-piece {
+    // background-color: aqua;
+    border-radius: 5px;
+}
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #dfe4ea;
+    opacity: 1; /* Firefox */
+}
+input, select, textarea { 
+    padding: 6px 8px;
+    border: 1px solid #dfe4ea;
+    border-radius: 8px;
+    color: #2f3542;
+    
+}
+
+input {
+    height: 16px;
+}
+select {
+    height: 32px;
+}
+table {
+    width: 100%;
+    text-align: left;
+    border-radius: 2px 2px 0 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: white;
+}
+
+thead>tr>th, tbody>tr>td, tfoot>tr>th, table tfoot>tr>td {
+    position: relative;
+    padding: 8px 16px;
+    overflow-wrap: break-word;
+}
+thead > tr > th {
+    position: relative;
+    color: #000000d9;
+    font-weight: 500;
+    text-align: left;
+    background: #dfe4ea;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background .3s ease;
+    &:not(:last-child)::after {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        width: 1px;
+        height: 1.6em;
+        background-color: #0000000f;
+        transform: translateY(-50%);
+        transition: background-color .3s;
+        content: "";
+    }
+
+    &:first-child {
+        border-top-left-radius: 2px;
+    }
+}
+
+tbody>tr>td {
+    border-bottom: 1px solid #dfe4ea;
+    transition: background .3s;
+}
+tbody>tr:hover>td {
+    background: #fafafa;
+}
+
+button {
+    border: 1px solid #dfe4ea;
+    border-radius: 4px;
+    height: 35px;
+    padding: 0 15px;
+}
+
+

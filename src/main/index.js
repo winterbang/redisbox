@@ -24,11 +24,15 @@ function creatWindow(params) {
     // transparent: true,
     backgroundColor: '#99FFFFFF',
     opacity: 0.98,
-    titleBarStyle: 'hidden',
+    // titleBarStyle: 'hidden',
     trafficLightPosition: { x: 20, y: 20 },
-    titleBarOverlay: {
-      color: '#2f3241',
-      symbolColor: '#74b1be'
+    // titleBarOverlay: {
+    //   color: '#2f3241',
+    //   symbolColor: '#74b1be'
+    // },
+    trafficLightPosition: {
+      x: 10,
+      y: 5
     },
     movable: true,
     webPreferences: {

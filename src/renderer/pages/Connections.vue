@@ -4,8 +4,12 @@
             <span>{{ connection.name }}</span>
             <span>{{connection.host}}:{{connection.port}}</span>
         </div>
+        <!-- <div class="connection-box" >
+            <div style="line-height: 46px;text-align:center;font-size: 0px;">
+                <span style="font-size:60px">+</span>
+            </div>
+        </div> -->
     </div>
-    
 </template>
 <script setup>
 import { useRouter } from 'vue-router'
@@ -29,6 +33,13 @@ function onConnect(id) {
 }
 </script>
 <style lang="less" scoped>
+.info-bar {
+    margin: 15px;
+    width: 100%;
+    background-color: tomato;
+    height: 36px;
+    border-radius: 14px;
+}
 .connection-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, 240px);
@@ -48,7 +59,9 @@ function onConnect(id) {
         border: 1px solid transparent;
         &:hover {
             border: 1px dashed #ccc;
+            box-shadow: 1px 1px 1px aliceblue;
         }
     }
 }
+
 </style>

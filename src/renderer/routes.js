@@ -12,9 +12,9 @@ const routes = [
         component: () => import('./layouts/index.vue'),
         children: [
             {
-                path: '',
-                component: () => import('./pages/Connections.vue')
-            }, {
+            //     path: '',
+            //     component: () => import('./pages/Connections.vue')
+            // }, {
                 path: 'connetions',
                 name: 'connetions',
                 component: () => import('./pages/Connections.vue'),
@@ -25,7 +25,13 @@ const routes = [
             }, {
                 path: ':connection_id/:db',
                 name: 'keys',
-                component: () => import('./pages/Keys.vue')
+                component: () => import('./pages/keys/Index.vue'),
+                // children: [
+                //     {
+                //         path: '',
+                //         component: () => import()
+                //     }
+                // ]
             }
         ]
     }, { 
