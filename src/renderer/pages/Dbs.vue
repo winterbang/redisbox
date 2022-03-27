@@ -29,6 +29,7 @@ onBeforeMount(async () => {
     const connection_id = route.params.connection_id
 
     const redis = await proxy.$redis[connection_id]
+    console.log(redis)
     redis.clientInfo().then(result => {
         console.log(result, 'client info ========')
         data.clientInfo = result

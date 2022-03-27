@@ -11,7 +11,9 @@
     </div>
 </template>
 <script setup>
+import { ref } from 'vue'
 import Drawer from '@components/Drawer.vue'
+const infoVisible = ref(false)
 </script>
 <style lang="scss" scoped>
 .top-bar {

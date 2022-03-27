@@ -26,12 +26,17 @@ const routes = [
                 path: ':connection_id/:db',
                 name: 'keys',
                 component: () => import('./pages/keys/Index.vue'),
-                // children: [
-                //     {
-                //         path: '',
-                //         component: () => import()
-                //     }
-                // ]
+                children: [
+                    {
+                        path: 'new',
+                        name: 'addKey',
+                        component: () => import('./pages/keys/Detail.vue')
+                    }, {
+                        path: 'edit',
+                        name: 'editKey',
+                        component: () => import('./pages/keys/Detail.vue')
+                    }
+                ]
             }
         ]
     }, { 

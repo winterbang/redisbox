@@ -10,6 +10,7 @@
                     <tr>
                         <th style="width: 30%">Field <svg-icon symbol="icon-search" size="22" color="#1e90ff"/></th>
                         <th>Value</th>
+                        <th>Operation</th>
                     </tr>
                 </thead>
             </table>
@@ -23,8 +24,9 @@
                     </thead>
                     <tbody>
                         <tr v-for="i in 20" :key="i">
-                            <td contenteditable="true">field{{i}}</td>
+                            <td>field{{i}}</td>
                             <td contenteditable="true">value{{i}}</td>
+                            <td>编辑 删除</td>
                         </tr>
                     </tbody>
                 </table>

@@ -16,11 +16,13 @@ const props = defineProps({
     top: 48px;
     bottom: 0;
     width: 360px;
-    background-color: orange;
+    background-color: $grey-3;
     box-shadow: -1px 2px 8px $grey-2;
-    transition: right .3s ease-in-out;
+    transition: right .3s ease-in-out, border-radius .3s ease-in;
+    border-radius: 20%;
     &.visible {
         right: 0;
+        border-radius: 4px;
     }
 }
 </style>
